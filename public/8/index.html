@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devblog — Nocturne</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gwendolyn:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #121010;
+      --surface: #1a1717;
+      --text: #d8d0c8;
+      --text-dim: #7a726a;
+      --gold: #c9a84c;
+      --gold-dim: rgba(201, 168, 76, 0.15);
+      --warm: #e8c07a;
+      --rule: #2a2625;
+      --rule-light: #342f2d;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Libre Baskerville', 'Times New Roman', Times, serif;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+     
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+     
+    .top-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+     
+    nav {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-brand {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--warm); }
+
+     
+    .hero {
+      padding: 5rem 0 4rem;
+      text-align: center;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .hero-kicker {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Gwendolyn', cursive;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--warm);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-subtitle {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .hero-date {
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+     
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 0;
+      gap: 1rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: var(--rule-light);
+    }
+
+    .divider .ornament {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 1.5rem;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+    }
+
+     
+    .posts-section {
+      padding: 2rem 0;
+    }
+
+    .section-title {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .post-item {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .post-item:hover {
+      padding-left: 1rem;
+      background: linear-gradient(90deg, var(--gold-dim), transparent 60%);
+    }
+
+    .post-kicker {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .post-title {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--warm);
+      margin-bottom: 0.6rem;
+      transition: color 0.3s;
+    }
+
+    .post-item:hover .post-title {
+      color: var(--gold);
+    }
+
+    .post-excerpt {
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-dim);
+      max-width: 550px;
+    }
+
+    .post-meta-col {
+      text-align: right;
+      padding-top: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .post-meta-date {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .post-meta-time {
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--rule-light);
+      border: 1px solid var(--rule-light);
+      padding: 0.2rem 0.5rem;
+      display: inline-block;
+    }
+
+     
+    .quote-block {
+      padding: 3.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .quote-block::before {
+      content: '\201C';
+      font-family: 'Gwendolyn', cursive;
+      font-size: 6rem;
+      color: var(--gold);
+      opacity: 0.2;
+      position: absolute;
+      top: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 1;
+    }
+
+    .quote-block blockquote {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--text);
+      position: relative;
+    }
+
+    .quote-block cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: 'Libre Baskerville', serif;
+      font-style: normal;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+     
+    .series-feature {
+      padding: 3rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .series-main .series-kicker {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .series-main h3 {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--warm);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .series-main p {
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--text-dim);
+    }
+
+    .series-chapters h4 {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--gold);
+      margin-bottom: 0;
+    }
+
+    .chapter-item {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .chapter-num {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 1.3rem;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .chapter-title {
+      color: var(--text);
+      font-style: italic;
+    }
+
+     
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 2rem 0;
+    }
+
+    .stat-cell {
+      background: var(--bg);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: 'Gwendolyn', cursive;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+     
+    footer {
+      padding: 2.5rem 0 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      transition: color 0.3s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    footer .colophon {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      font-style: italic;
+      text-align: right;
+      line-height: 1.7;
+    }
+
+     
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glowIn {
+      from { opacity: 0; text-shadow: 0 0 20px rgba(201, 168, 76, 0); }
+      to { opacity: 1; text-shadow: 0 0 40px rgba(201, 168, 76, 0.08); }
+    }
+
+    .hero { animation: fadeIn 1s ease-out; }
+    .hero h1 { animation: glowIn 1.5s ease-out 0.3s both; }
+    .post-item:nth-child(1) { animation: fadeIn 0.7s ease-out 0.1s both; }
+    .post-item:nth-child(2) { animation: fadeIn 0.7s ease-out 0.18s both; }
+    .post-item:nth-child(3) { animation: fadeIn 0.7s ease-out 0.26s both; }
+    .post-item:nth-child(4) { animation: fadeIn 0.7s ease-out 0.34s both; }
+    .post-item:nth-child(5) { animation: fadeIn 0.7s ease-out 0.42s both; }
+    .post-item:nth-child(6) { animation: fadeIn 0.7s ease-out 0.50s both; }
+
+    @media (max-width: 768px) {
+      .post-item { grid-template-columns: 1fr; gap: 0.8rem; }
+      .post-meta-col { text-align: left; }
+      .series-feature { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-line"></div>
+
+  <div class="container">
+
+    
+    <nav>
+      <span class="nav-brand">devblog</span>
+      <ul class="nav-links">
+        <li><a href="#">Writing</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">RSS</a></li>
+      </ul>
+    </nav>
+
+    
+    <section class="hero">
+      <p class="hero-kicker">Latest</p>
+      <h1>Lock-Free Queues</h1>
+      <p class="hero-subtitle">On building concurrent data structures in Rust &mdash; the dark art of compare-and-swap, memory ordering, and the ABA problem.</p>
+      <p class="hero-date">February 18, 2026 &middot; 12 minutes</p>
+    </section>
+
+    <div class="divider">
+      <span class="ornament">&sect;</span>
+    </div>
+
+    
+    <section class="posts-section">
+      <h2 class="section-title">Recent Writing</h2>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">Rust</p>
+          <h3 class="post-title">Zero-Copy Deserialization</h3>
+          <p class="post-excerpt">Exploring serde's zero-copy capabilities and the quiet elegance of borrowed data over owned types.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Feb 14</span>
+          <span class="post-meta-time">8 min</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">Infrastructure</p>
+          <h3 class="post-title">Leaving Kubernetes</h3>
+          <p class="post-excerpt">Sometimes the simplest solution is a couple of VMs, a load balancer, and a deploy script.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Feb 8</span>
+          <span class="post-meta-time">14 min</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">Go</p>
+          <h3 class="post-title">Structured Concurrency</h3>
+          <p class="post-excerpt">The new errgroup patterns in Go 1.24 and how they reshape goroutine lifecycle management.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Jan 30</span>
+          <span class="post-meta-time">10 min</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">Performance</p>
+          <h3 class="post-title">Ten Million Requests</h3>
+          <p class="post-excerpt">From flamegraphs to fix &mdash; finding and eliminating a 3ms latency spike hidden in production.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Jan 22</span>
+          <span class="post-meta-time">11 min</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">Systems</p>
+          <h3 class="post-title">A Toy Database</h3>
+          <p class="post-excerpt">B-trees, write-ahead logs, buffer pools. Building fundamentals to understand the abstractions we stand upon.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Jan 15</span>
+          <span class="post-meta-time">16 min</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div>
+          <p class="post-kicker">DevOps</p>
+          <h3 class="post-title">Nix Flakes</h3>
+          <p class="post-excerpt">How Nix flakes finally made reproducible development environments practical for real teams.</p>
+        </div>
+        <div class="post-meta-col">
+          <span class="post-meta-date">Jan 8</span>
+          <span class="post-meta-time">9 min</span>
+        </div>
+      </article>
+    </section>
+
+    
+    <div class="quote-block">
+      <blockquote>The best code I ever wrote was the code I deleted. Every line removed was a liability discharged, a future bug extinguished before it could be born.</blockquote>
+      <cite>From "On Deletion" &mdash; January 2026</cite>
+    </div>
+
+    
+    <div class="stats-bar">
+      <div class="stat-cell">
+        <div class="stat-val">47</div>
+        <div class="stat-label">Posts</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">12k</div>
+        <div class="stat-label">Readers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">847</div>
+        <div class="stat-label">Days</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">23</div>
+        <div class="stat-label">Series</div>
+      </div>
+    </div>
+
+    
+    <section class="series-feature">
+      <div class="series-main">
+        <p class="series-kicker">Featured Series</p>
+        <h3>Compilers for the Rest of Us</h3>
+        <p>Twelve parts on building a complete programming language from lexer to code generation. No academic jargon &mdash; just working code and the quiet satisfaction of watching a compiler come to life.</p>
+      </div>
+      <div class="series-chapters">
+        <h4>Chapters</h4>
+        <div class="chapter-item">
+          <span class="chapter-num">i</span>
+          <span class="chapter-title">Tokenizing arithmetic</span>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-num">ii</span>
+          <span class="chapter-title">Recursive descent parsing</span>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-num">iii</span>
+          <span class="chapter-title">Building the AST</span>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-num">iv</span>
+          <span class="chapter-title">Type checking</span>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-num">v</span>
+          <span class="chapter-title">Emitting WebAssembly</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <a href="/">&larr; Back to styles</a>
+      <div class="colophon">
+        devblog &middot; 2026<br>
+        Set in Gwendolyn &amp; Libre Baskerville
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

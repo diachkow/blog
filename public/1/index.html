@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVBLOG — BRUTALIST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f0efe9;
+      --red: #ff2a1f;
+      --yellow: #ffe14d;
+      --border: 3px solid var(--black);
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+     
+    .ticker {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.5rem 0;
+      overflow: hidden;
+      border-bottom: var(--border);
+    }
+
+    .ticker-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll 20s linear infinite;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .ticker-inner span {
+      padding: 0 2rem;
+    }
+
+    .ticker-inner span::before {
+      content: '■ ';
+      color: var(--red);
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+     
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: var(--border);
+    }
+
+    .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .logo .slash {
+      color: var(--red);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border: var(--border);
+      margin-left: -3px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+     
+    .hero {
+      border-bottom: var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-left {
+      padding: 3rem 2rem;
+      border-right: var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.3rem 0.8rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      transform: rotate(-2deg);
+      width: fit-content;
+    }
+
+    .hero h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 .outline {
+      -webkit-text-stroke: 2px var(--black);
+      color: transparent;
+    }
+
+    .hero-meta {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #666;
+    }
+
+    .hero-right {
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 350px;
+    }
+
+    .hero-right .big-number {
+      font-family: 'Anton', sans-serif;
+      font-size: 18rem;
+      line-height: 1;
+      opacity: 0.12;
+      position: absolute;
+    }
+
+    .hero-right .hero-quote {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.5;
+      max-width: 350px;
+      border-left: 6px solid var(--black);
+      padding-left: 1.5rem;
+    }
+
+     
+    .posts-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: var(--border);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .posts-header h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .posts-header .count {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .post-card {
+      border-right: var(--border);
+      border-bottom: var(--border);
+      padding: 2rem 1.5rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    .post-card:nth-child(3n) { border-right: none; }
+
+    .post-card:hover {
+      background: var(--yellow);
+    }
+
+    .post-card .post-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      opacity: 0.1;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .post-card .post-tag {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: var(--black);
+      color: var(--white);
+      padding: 0.2rem 0.5rem;
+      width: fit-content;
+    }
+
+    .post-card h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .post-card .post-excerpt {
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .post-card .post-date {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-top: auto;
+    }
+
+     
+    .feature-strip {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      border-bottom: var(--border);
+    }
+
+    .feature-main {
+      padding: 3rem 2rem;
+      border-right: var(--border);
+    }
+
+    .feature-main .post-tag {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.2rem 0.5rem;
+      width: fit-content;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .feature-main h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin-bottom: 1rem;
+    }
+
+    .feature-main p {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #444;
+      max-width: 600px;
+    }
+
+    .feature-side {
+      background: var(--black);
+      color: var(--white);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .feature-side h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #333;
+    }
+
+    .feature-side ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .feature-side li {
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .feature-side li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+    }
+
+     
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      border-top: var(--border);
+    }
+
+    footer .back {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: var(--border);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    footer .back:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    footer .copy {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: var(--border); }
+      .posts-grid { grid-template-columns: 1fr; }
+      .post-card { border-right: none !important; }
+      .feature-strip { grid-template-columns: 1fr; }
+      .feature-main { border-right: none; border-bottom: var(--border); }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>Systems Programming</span>
+      <span>Distributed Systems</span>
+      <span>Rust &amp; Go</span>
+      <span>Infrastructure</span>
+      <span>Open Source</span>
+      <span>Performance Engineering</span>
+      <span>DevOps</span>
+      <span>Cloud Native</span>
+      <span>Systems Programming</span>
+      <span>Distributed Systems</span>
+      <span>Rust &amp; Go</span>
+      <span>Infrastructure</span>
+      <span>Open Source</span>
+      <span>Performance Engineering</span>
+      <span>DevOps</span>
+      <span>Cloud Native</span>
+    </div>
+  </div>
+
+  
+  <nav>
+    <a href="/" class="logo">DEV<span class="slash">/</span>BLOG</a>
+    <ul class="nav-links">
+      <li><a href="#">Writing</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">RSS</a></li>
+    </ul>
+  </nav>
+
+  
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Latest Post</div>
+      <h1>Building a <span class="outline">Lock-Free</span> Queue in Rust</h1>
+      <p class="hero-meta">Feb 18, 2026 &mdash; 12 min read</p>
+    </div>
+    <div class="hero-right">
+      <div class="big-number">01</div>
+      <blockquote class="hero-quote">
+        "The fastest code is the code that never runs. The second fastest is the code that never waits."
+      </blockquote>
+    </div>
+  </div>
+
+  
+  <div class="posts-header">
+    <h2>Recent Posts</h2>
+    <span class="count">6 Articles</span>
+  </div>
+  <div class="posts-grid">
+    <a href="#" class="post-card">
+      <span class="post-num">01</span>
+      <span class="post-tag">Rust</span>
+      <h3>Zero-Copy Deserialization Patterns</h3>
+      <p class="post-excerpt">Exploring serde's zero-copy capabilities and when to reach for borrowed data over owned types.</p>
+      <span class="post-date">Feb 14, 2026</span>
+    </a>
+    <a href="#" class="post-card">
+      <span class="post-num">02</span>
+      <span class="post-tag">Infrastructure</span>
+      <h3>Why I Moved Off Kubernetes</h3>
+      <p class="post-excerpt">Sometimes the simplest solution is a couple of VMs, a load balancer, and a deploy script.</p>
+      <span class="post-date">Feb 08, 2026</span>
+    </a>
+    <a href="#" class="post-card">
+      <span class="post-num">03</span>
+      <span class="post-tag">Go</span>
+      <h3>Structured Concurrency in Go 1.24</h3>
+      <p class="post-excerpt">The new errgroup patterns and how they change the way we think about goroutine lifecycles.</p>
+      <span class="post-date">Jan 30, 2026</span>
+    </a>
+    <a href="#" class="post-card">
+      <span class="post-num">04</span>
+      <span class="post-tag">Performance</span>
+      <h3>Profiling a 10M RPS Gateway</h3>
+      <p class="post-excerpt">From flamegraphs to fix: how we found and eliminated a 3ms latency spike in production.</p>
+      <span class="post-date">Jan 22, 2026</span>
+    </a>
+    <a href="#" class="post-card">
+      <span class="post-num">05</span>
+      <span class="post-tag">Systems</span>
+      <h3>Writing a Toy Database from Scratch</h3>
+      <p class="post-excerpt">B-trees, WAL, buffer pools — building the fundamentals to understand the abstractions.</p>
+      <span class="post-date">Jan 15, 2026</span>
+    </a>
+    <a href="#" class="post-card">
+      <span class="post-num">06</span>
+      <span class="post-tag">DevOps</span>
+      <h3>Nix Flakes for Reproducible Builds</h3>
+      <p class="post-excerpt">How Nix flakes finally made reproducible development environments practical for teams.</p>
+      <span class="post-date">Jan 08, 2026</span>
+    </a>
+  </div>
+
+  
+  <div class="feature-strip">
+    <div class="feature-main">
+      <span class="post-tag">Featured Series</span>
+      <h2>Building Distributed Systems the Hard Way</h2>
+      <p>A 12-part series on implementing consensus algorithms, distributed hash tables, and fault-tolerant storage from first principles. No frameworks, no shortcuts — just raw TCP sockets and a lot of debugging.</p>
+    </div>
+    <div class="feature-side">
+      <h3>Topics</h3>
+      <ul>
+        <li>Raft Consensus</li>
+        <li>CRDTs &amp; Eventual Consistency</li>
+        <li>Wire Protocols</li>
+        <li>Failure Detection</li>
+        <li>Log-Structured Storage</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <a href="/" class="back">&larr; Back to Styles</a>
+    <span class="copy">&copy; 2026 DEVBLOG</span>
+  </footer>
+</body>
+</html>

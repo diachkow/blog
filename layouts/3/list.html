@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vitaliy@devblog:~$</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0e0a;
+      --green: #00ff41;
+      --green-dim: #00cc33;
+      --green-dark: #003b0f;
+      --amber: #ffb627;
+      --cyan: #00e5ff;
+      --red: #ff3535;
+      --comment: #3d6b3d;
+      --surface: #0d120d;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* CRT effects */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.015) 2px,
+        rgba(0, 255, 65, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Subtle flicker */
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      97% { opacity: 1; }
+    }
+
+    .screen {
+      animation: flicker 8s infinite;
+      padding: 1.5rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Glow effect for text */
+    .glow {
+      text-shadow: 0 0 5px rgba(0, 255, 65, 0.4), 0 0 10px rgba(0, 255, 65, 0.15);
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+    }
+
+    /* Header / Boot sequence */
+    .boot {
+      border-bottom: 1px solid var(--green-dark);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .boot-line {
+      color: var(--comment);
+      font-size: 0.75rem;
+    }
+
+    .boot .ascii-title {
+      color: var(--green);
+      font-size: 0.7rem;
+      line-height: 1.2;
+      margin: 0.8rem 0;
+      white-space: pre;
+    }
+
+    .boot .system-info {
+      font-size: 0.75rem;
+      color: var(--green-dim);
+    }
+
+    .boot .system-info .val {
+      color: var(--amber);
+    }
+
+    /* Prompt */
+    .prompt {
+      margin-bottom: 0.3rem;
+    }
+
+    .prompt .user {
+      color: var(--cyan);
+    }
+
+    .prompt .at {
+      color: var(--comment);
+    }
+
+    .prompt .host {
+      color: var(--green);
+    }
+
+    .prompt .path {
+      color: var(--amber);
+    }
+
+    .prompt .dollar {
+      color: var(--green-dim);
+    }
+
+    /* Cursor blink */
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    /* Nav */
+    .nav-bar {
+      display: flex;
+      gap: 0;
+      margin: 1.5rem 0;
+      border: 1px solid var(--green-dark);
+      width: fit-content;
+    }
+
+    .nav-bar a {
+      color: var(--green-dim);
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      border-right: 1px solid var(--green-dark);
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+
+    .nav-bar a:last-child { border-right: none; }
+
+    .nav-bar a:hover, .nav-bar a.active {
+      background: var(--green);
+      color: var(--bg);
+      text-shadow: none;
+    }
+
+    /* Section headers */
+    .section-header {
+      color: var(--comment);
+      font-size: 0.75rem;
+      margin: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--green-dark);
+    }
+
+    /* Post list */
+    .post-list {
+      list-style: none;
+    }
+
+    .post-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--green-dark);
+      display: grid;
+      grid-template-columns: 80px 70px 1fr auto;
+      gap: 1rem;
+      align-items: baseline;
+      font-size: 0.85rem;
+    }
+
+    .post-item:hover {
+      background: rgba(0, 255, 65, 0.03);
+    }
+
+    .post-date {
+      color: var(--comment);
+      font-size: 0.75rem;
+    }
+
+    .post-tag {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border: 1px solid;
+    }
+
+    .post-tag.rust { color: var(--red); border-color: var(--red); }
+    .post-tag.go { color: var(--cyan); border-color: var(--cyan); }
+    .post-tag.sys { color: var(--amber); border-color: var(--amber); }
+    .post-tag.infra { color: var(--green); border-color: var(--green); }
+    .post-tag.perf { color: #e879f9; border-color: #e879f9; }
+    .post-tag.devops { color: #fb923c; border-color: #fb923c; }
+
+    .post-title {
+      color: var(--green);
+    }
+
+    .post-title:hover {
+      color: var(--cyan);
+    }
+
+    .post-reads {
+      color: var(--comment);
+      font-size: 0.7rem;
+      text-align: right;
+    }
+
+    /* Featured / cat output */
+    .cat-output {
+      background: var(--surface);
+      border: 1px solid var(--green-dark);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+
+    .cat-output::before {
+      content: '┌─ featured.md ─┐';
+      position: absolute;
+      top: -0.6rem;
+      left: 1rem;
+      background: var(--bg);
+      padding: 0 0.5rem;
+      font-size: 0.7rem;
+      color: var(--amber);
+    }
+
+    .cat-output .title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .cat-output .meta {
+      font-size: 0.75rem;
+      color: var(--comment);
+      margin-bottom: 1rem;
+    }
+
+    .cat-output .body {
+      font-size: 0.8rem;
+      color: var(--green-dim);
+      line-height: 1.7;
+    }
+
+    .cat-output .body .highlight {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* Stats panel */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--green-dark);
+      border: 1px solid var(--green-dark);
+      margin: 1.5rem 0;
+    }
+
+    .stat {
+      background: var(--bg);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat .stat-val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .stat .stat-label {
+      font-size: 0.6rem;
+      color: var(--comment);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* Tree view */
+    .tree {
+      font-size: 0.8rem;
+      color: var(--green-dim);
+      margin: 1rem 0;
+    }
+
+    .tree .dir { color: var(--cyan); }
+    .tree .file { color: var(--green-dim); }
+    .tree .exec { color: var(--green); font-weight: 700; }
+
+    /* Progress bar */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0.4rem 0;
+      font-size: 0.75rem;
+    }
+
+    .progress-label {
+      width: 80px;
+      color: var(--green-dim);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: var(--green-dark);
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--green);
+    }
+
+    .progress-val {
+      width: 40px;
+      text-align: right;
+      color: var(--amber);
+      font-size: 0.7rem;
+    }
+
+    /* Footer */
+    .footer-prompt {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--green-dark);
+      font-size: 0.75rem;
+      color: var(--comment);
+    }
+
+    .footer-prompt a {
+      color: var(--green-dim);
+    }
+
+    @media (max-width: 768px) {
+      .post-item {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+      }
+      .post-reads { text-align: left; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+
+    <!-- Boot sequence -->
+    <div class="boot">
+      <p class="boot-line">GNU/Linux 6.8.0-devblog tty1</p>
+      <pre class="ascii-title glow">
+     _            _     _
+  __| | _____   _| |__ | | ___   __ _
+ / _` |/ _ \ \ / / '_ \| |/ _ \ / _` |
+| (_| |  __/\ V /| |_) | | (_) | (_| |
+ \__,_|\___| \_/ |_.__/|_|\___/ \__, |
+                                |___/</pre>
+      <p class="system-info">kernel <span class="val">6.8.0</span> | uptime <span class="val">847d 3h 12m</span> | posts <span class="val">47</span> | readers <span class="val">12.4k</span></p>
+    </div>
+
+    <!-- Prompt + nav -->
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~</span><span class="dollar">$</span> ls --format=blog
+    </div>
+
+    <div class="nav-bar">
+      <a href="#" class="active">/posts</a>
+      <a href="#">/projects</a>
+      <a href="#">/about</a>
+      <a href="#">/rss.xml</a>
+    </div>
+
+    <!-- Featured -->
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~/posts</span><span class="dollar">$</span> cat featured.md
+    </div>
+
+    <div class="cat-output">
+      <p class="title glow">Building a Lock-Free Queue in Rust</p>
+      <p class="meta">date: 2026-02-18 | tags: [rust, concurrency, systems] | read_time: 12min</p>
+      <p class="body">
+        Lock-free data structures are the <span class="highlight">dark art of concurrent programming</span>. They promise high throughput without the overhead of mutex contention, but they demand a deep understanding of memory ordering, compare-and-swap operations, and the ABA problem. In this post, we build a <span class="highlight">Michael-Scott queue</span> from scratch in Rust, leveraging the type system to make our unsafe code as safe as possible.
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~</span><span class="dollar">$</span> neofetch --blog-stats
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-val glow">47</div>
+        <div class="stat-label">Posts</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val glow">12.4k</div>
+        <div class="stat-label">Readers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val glow">847</div>
+        <div class="stat-label">Days Online</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val glow">23</div>
+        <div class="stat-label">Series</div>
+      </div>
+    </div>
+
+    <!-- Post list -->
+    <div class="section-header">/* recent posts */</div>
+
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~/posts</span><span class="dollar">$</span> ls -la --sort=date
+    </div>
+
+    <ul class="post-list">
+      <li class="post-item">
+        <span class="post-date">02-14</span>
+        <span class="post-tag rust">rust</span>
+        <a href="#" class="post-title">Zero-Copy Deserialization Patterns</a>
+        <span class="post-reads">2.1k reads</span>
+      </li>
+      <li class="post-item">
+        <span class="post-date">02-08</span>
+        <span class="post-tag infra">infra</span>
+        <a href="#" class="post-title">Why I Moved Off Kubernetes</a>
+        <span class="post-reads">8.7k reads</span>
+      </li>
+      <li class="post-item">
+        <span class="post-date">01-30</span>
+        <span class="post-tag go">go</span>
+        <a href="#" class="post-title">Structured Concurrency in Go 1.24</a>
+        <span class="post-reads">3.4k reads</span>
+      </li>
+      <li class="post-item">
+        <span class="post-date">01-22</span>
+        <span class="post-tag perf">perf</span>
+        <a href="#" class="post-title">Profiling a 10M RPS API Gateway</a>
+        <span class="post-reads">5.2k reads</span>
+      </li>
+      <li class="post-item">
+        <span class="post-date">01-15</span>
+        <span class="post-tag sys">sys</span>
+        <a href="#" class="post-title">Writing a Toy Database from Scratch</a>
+        <span class="post-reads">6.8k reads</span>
+      </li>
+      <li class="post-item">
+        <span class="post-date">01-08</span>
+        <span class="post-tag devops">devops</span>
+        <a href="#" class="post-title">Nix Flakes for Reproducible Builds</a>
+        <span class="post-reads">4.1k reads</span>
+      </li>
+    </ul>
+
+    <!-- Topics / skill bars -->
+    <div class="section-header">/* topics breakdown */</div>
+
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~</span><span class="dollar">$</span> blog stats --topics
+    </div>
+
+    <div style="margin: 1rem 0;">
+      <div class="progress-row">
+        <span class="progress-label">Rust</span>
+        <div class="progress-bar"><div class="progress-fill" style="width: 78%"></div></div>
+        <span class="progress-val">78%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Systems</span>
+        <div class="progress-bar"><div class="progress-fill" style="width: 65%; background: var(--amber)"></div></div>
+        <span class="progress-val">65%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Go</span>
+        <div class="progress-bar"><div class="progress-fill" style="width: 52%; background: var(--cyan)"></div></div>
+        <span class="progress-val">52%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Infra</span>
+        <div class="progress-bar"><div class="progress-fill" style="width: 40%; background: #e879f9"></div></div>
+        <span class="progress-val">40%</span>
+      </div>
+    </div>
+
+    <!-- Tree -->
+    <div class="section-header">/* project structure */</div>
+
+    <div class="prompt glow">
+      <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~</span><span class="dollar">$</span> tree ~/projects -L 1
+    </div>
+
+    <div class="tree">
+      <pre>
+~/projects
+├── <span class="dir">lock-free-queue/</span>      # Current project
+├── <span class="dir">mini-db/</span>              # Toy database engine
+├── <span class="dir">tcp-stack/</span>            # Userspace TCP
+├── <span class="exec">deploy.sh*</span>            # The deploy script
+└── <span class="file">README.md</span>             # You are here</pre>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-prompt">
+      <div class="prompt">
+        <span class="user">vitaliy</span><span class="at">@</span><span class="host">devblog</span>:<span class="path">~</span><span class="dollar">$</span> <a href="/">cd /styles</a><span class="cursor"></span>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.65rem;">PID 1 | &copy; 2026 devblog | <a href="/">back to index</a></p>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devblog — The Codex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #12100e;
+      --leather: #1e1a15;
+      --parchment: #d4c6a8;
+      --parchment-dim: #8a7d68;
+      --gold: #c4a24e;
+      --gold-dim: #7a6530;
+      --burgundy: #8b2335;
+      --blood: #6b1a28;
+      --rule: #2e2820;
+      --text: #c8bca0;
+      --text-dim: #6e6450;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Leather texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--parchment); }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Ornamental borders */
+    .ornament-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      position: relative;
+    }
+
+    .ornament-line.thick {
+      height: 0;
+      border-top: 1px solid var(--gold-dim);
+      border-bottom: 1px solid var(--gold-dim);
+      padding-top: 2px;
+    }
+
+    .ornament-line .center-gem {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: var(--gold-dim);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    /* Masthead */
+    .masthead {
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+
+    .masthead-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.8rem;
+    }
+
+    .masthead h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 15px rgba(196, 162, 78, 0.15);
+    }
+
+    .masthead-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .masthead-rule::before,
+    .masthead-rule::after {
+      content: '';
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim));
+    }
+
+    .masthead-rule::after {
+      background: linear-gradient(90deg, var(--gold-dim), transparent);
+    }
+
+    .masthead-rule .diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--burgundy);
+      transform: rotate(45deg);
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0 1.5rem;
+      list-style: none;
+    }
+
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment-dim);
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    /* Featured — like a bestiary entry */
+    .bestiary-entry {
+      border: 1px solid var(--rule);
+      margin: 1.5rem 0 2rem;
+      position: relative;
+      background: var(--leather);
+    }
+
+    /* Corner ornaments */
+    .bestiary-entry::before,
+    .bestiary-entry::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--gold-dim);
+    }
+
+    .bestiary-entry::before {
+      top: 6px;
+      left: 6px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .bestiary-entry::after {
+      bottom: 6px;
+      right: 6px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .entry-header {
+      text-align: center;
+      padding: 2rem 2.5rem 0;
+    }
+
+    .entry-type {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--burgundy);
+      margin-bottom: 0.6rem;
+    }
+
+    .entry-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 400;
+      color: var(--parchment);
+      line-height: 1.3;
+    }
+
+    .entry-meta {
+      margin-top: 0.8rem;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--parchment-dim);
+    }
+
+    .entry-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.2rem 0;
+    }
+
+    .entry-divider span {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.8rem;
+      color: var(--gold-dim);
+    }
+
+    .entry-divider::before,
+    .entry-divider::after {
+      content: '';
+      width: 50px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .entry-body {
+      padding: 0 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .entry-body p {
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--text);
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    /* Contract board — posts as witcher contracts */
+    .contract-section {
+      padding: 2rem 0;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '\2014\2014';
+      color: var(--rule);
+      margin: 0 0.5rem;
+    }
+
+    .contract-list {
+      list-style: none;
+    }
+
+    .contract {
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--burgundy);
+      background: var(--leather);
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .contract:hover {
+      border-left-color: var(--gold);
+      background: #221e18;
+    }
+
+    .contract-type {
+      font-family: 'Cinzel', serif;
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--burgundy);
+      margin-bottom: 0.3rem;
+    }
+
+    .contract:hover .contract-type { color: var(--gold); }
+
+    .contract-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--parchment);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .contract-body {
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--parchment-dim);
+      margin-bottom: 0.8rem;
+    }
+
+    .contract-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+    }
+
+    .contract-date {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .contract-reward {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      border: 1px solid var(--gold-dim);
+      padding: 0.2rem 0.6rem;
+    }
+
+    /* Quote / inscription */
+    .inscription {
+      text-align: center;
+      padding: 3rem 0;
+      position: relative;
+    }
+
+    .inscription::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 0 auto 1.5rem;
+    }
+
+    .inscription blockquote {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+      color: var(--parchment);
+    }
+
+    .inscription cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: 'Cinzel', serif;
+      font-style: normal;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+
+    .inscription::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 1.5rem auto 0;
+    }
+
+    /* Tome / series */
+    .tome-section {
+      border: 1px solid var(--rule);
+      background: var(--leather);
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .tome-section::before,
+    .tome-section::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--gold-dim);
+    }
+
+    .tome-section::before {
+      top: 5px; left: 5px;
+      border-right: none; border-bottom: none;
+    }
+
+    .tome-section::after {
+      bottom: 5px; right: 5px;
+      border-left: none; border-top: none;
+    }
+
+    .tome-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .tome-header .entry-type {
+      margin-bottom: 0.4rem;
+    }
+
+    .tome-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--parchment);
+    }
+
+    .tome-desc {
+      font-size: 0.88rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--parchment-dim);
+      text-align: center;
+      max-width: 550px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .tome-chapters {
+      list-style: none;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .tome-chapters li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .tome-chapters .ch-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--gold-dim);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0 3rem;
+      text-align: center;
+    }
+
+    footer .ornament-line { margin-bottom: 1.5rem; }
+
+    footer a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--parchment-dim);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    footer .colophon {
+      font-size: 0.7rem;
+      font-style: italic;
+      color: var(--text-dim);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bestiary-entry { animation: fadeIn 0.9s ease-out; }
+    .contract:nth-child(1) { animation: fadeIn 0.6s ease-out 0.08s both; }
+    .contract:nth-child(2) { animation: fadeIn 0.6s ease-out 0.16s both; }
+    .contract:nth-child(3) { animation: fadeIn 0.6s ease-out 0.24s both; }
+    .contract:nth-child(4) { animation: fadeIn 0.6s ease-out 0.32s both; }
+    .contract:nth-child(5) { animation: fadeIn 0.6s ease-out 0.40s both; }
+    .contract:nth-child(6) { animation: fadeIn 0.6s ease-out 0.48s both; }
+
+    @media (max-width: 768px) {
+      .contract-footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Masthead -->
+    <header class="masthead">
+      <p class="masthead-sub">A Developer's Chronicle</p>
+      <h1>The Codex</h1>
+      <div class="masthead-rule">
+        <div class="diamond"></div>
+      </div>
+    </header>
+
+    <div class="ornament-line thick"><span class="center-gem"></span></div>
+
+    <nav>
+      <a href="#">Bestiary</a>
+      <a href="#">Contracts</a>
+      <a href="#">Alchemy</a>
+      <a href="#">Chronicle</a>
+    </nav>
+
+    <div class="ornament-line"></div>
+
+    <!-- Featured bestiary entry -->
+    <article class="bestiary-entry">
+      <div class="entry-header">
+        <p class="entry-type">Latest Entry</p>
+        <h2 class="entry-title">Building a Lock-Free Queue in Rust</h2>
+        <p class="entry-meta">Inscribed on the 18th of February, Year 2026 &mdash; Twelve minutes to study</p>
+      </div>
+      <div class="entry-divider"><span>&loz;</span></div>
+      <div class="entry-body">
+        <p>Lock-free data structures are the dark art of concurrent programming. They promise high throughput without the overhead of mutex contention, but they demand deep understanding of memory ordering, compare-and-swap operations, and the dreaded ABA problem.</p>
+      </div>
+    </article>
+
+    <!-- Contracts / posts -->
+    <section class="contract-section">
+      <h2 class="section-title">Notices</h2>
+
+      <ul class="contract-list">
+        <li class="contract">
+          <p class="contract-type">Rust</p>
+          <h3 class="contract-title">Zero-Copy Deserialization Patterns</h3>
+          <p class="contract-body">Exploring serde's zero-copy capabilities and when to reach for borrowed data over owned types.</p>
+          <div class="contract-footer">
+            <span class="contract-date">14th of February</span>
+            <span class="contract-reward">8 min read</span>
+          </div>
+        </li>
+        <li class="contract">
+          <p class="contract-type">Infrastructure</p>
+          <h3 class="contract-title">Why I Moved Off Kubernetes</h3>
+          <p class="contract-body">Sometimes the simplest solution is a couple of machines, a balancer, and a deploy script. Not every hunt requires silver.</p>
+          <div class="contract-footer">
+            <span class="contract-date">8th of February</span>
+            <span class="contract-reward">14 min read</span>
+          </div>
+        </li>
+        <li class="contract">
+          <p class="contract-type">Go</p>
+          <h3 class="contract-title">Structured Concurrency in Go 1.24</h3>
+          <p class="contract-body">The new errgroup patterns and how they reshape the way we think about goroutine lifecycles.</p>
+          <div class="contract-footer">
+            <span class="contract-date">30th of January</span>
+            <span class="contract-reward">10 min read</span>
+          </div>
+        </li>
+        <li class="contract">
+          <p class="contract-type">Performance</p>
+          <h3 class="contract-title">Profiling a 10M RPS Gateway</h3>
+          <p class="contract-body">From flamegraphs to fix &mdash; tracking and eliminating a latency spike hidden deep within production.</p>
+          <div class="contract-footer">
+            <span class="contract-date">22nd of January</span>
+            <span class="contract-reward">11 min read</span>
+          </div>
+        </li>
+        <li class="contract">
+          <p class="contract-type">Systems</p>
+          <h3 class="contract-title">Writing a Toy Database from Scratch</h3>
+          <p class="contract-body">B-trees, write-ahead logs, buffer pools. Building the fundamentals to understand the abstractions we stand upon.</p>
+          <div class="contract-footer">
+            <span class="contract-date">15th of January</span>
+            <span class="contract-reward">16 min read</span>
+          </div>
+        </li>
+        <li class="contract">
+          <p class="contract-type">DevOps</p>
+          <h3 class="contract-title">Nix Flakes for Reproducible Builds</h3>
+          <p class="contract-body">How Nix flakes finally made reproducible development environments practical for working guilds.</p>
+          <div class="contract-footer">
+            <span class="contract-date">8th of January</span>
+            <span class="contract-reward">9 min read</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Inscription -->
+    <div class="inscription">
+      <blockquote>The best code I ever wrote was the code I deleted. Every line removed was a curse lifted, a future bug slain before it could draw breath.</blockquote>
+      <cite>From "On Deletion" &mdash; The Winter Journals</cite>
+    </div>
+
+    <!-- Tome / series -->
+    <div class="tome-section">
+      <div class="tome-header">
+        <p class="entry-type">Collected Works</p>
+        <h3 class="tome-title">Compilers for the Rest of Us</h3>
+      </div>
+      <p class="tome-desc">Twelve volumes on the craft of building a programming language from first principles. From tokenizing arithmetic to emitting machine code.</p>
+      <ul class="tome-chapters">
+        <li><span class="ch-num">VOL I</span> Tokenizing arithmetic</li>
+        <li><span class="ch-num">VOL II</span> Recursive descent parsing</li>
+        <li><span class="ch-num">VOL III</span> Building the AST</li>
+        <li><span class="ch-num">VOL IV</span> Type checking</li>
+        <li><span class="ch-num">VOL V</span> Emitting WebAssembly</li>
+      </ul>
+    </div>
+
+    <footer>
+      <div class="ornament-line"><span class="center-gem"></span></div>
+      <a href="/">&larr; Return to the Crossroads</a>
+      <span class="colophon">The Codex &middot; Year 2026</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

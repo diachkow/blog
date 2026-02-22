@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devblog — Broadsheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #1a1a1a;
+      --ink-mid: #555;
+      --ink-light: #999;
+      --rule: #e2e2e2;
+      --rule-dark: #1a1a1a;
+      --accent: #b8372e;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+     
+    .masthead {
+      padding: 2.5rem 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .masthead-left {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+
+    .masthead h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .masthead-issue {
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+     
+    .double-rule {
+      margin: 1rem 0;
+      border: none;
+      height: 0;
+      border-top: 2px solid var(--rule-dark);
+      border-bottom: 1px solid var(--rule-dark);
+      padding-top: 3px;
+    }
+
+     
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-date {
+      font-size: 0.62rem;
+      font-weight: 300;
+      color: var(--ink-light);
+      letter-spacing: 0.05em;
+    }
+
+     
+    .hero {
+      padding: 4rem 0 3.5rem;
+      max-width: 680px;
+    }
+
+    .hero-kicker {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h2 em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-lede {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-mid);
+      max-width: 560px;
+    }
+
+    .hero-byline {
+      margin-top: 1.5rem;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-byline strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+     
+    hr {
+      border: none;
+      height: 1px;
+      background: var(--rule);
+    }
+
+     
+    .posts-section {
+      padding: 2.5rem 0;
+    }
+
+    .section-label {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .posts-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .post-col {
+      padding: 0 2rem;
+      border-left: 1px solid var(--rule);
+    }
+
+    .post-col:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .post-entry {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      cursor: pointer;
+      transition: padding-left 0.3s ease;
+    }
+
+    .post-entry:last-child { border-bottom: none; }
+
+    .post-entry:hover { padding-left: 0.5rem; }
+
+    .post-entry .post-kicker {
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .post-entry h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-entry p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    .post-entry .post-meta {
+      margin-top: 0.6rem;
+      font-size: 0.6rem;
+      color: var(--ink-light);
+      letter-spacing: 0.03em;
+    }
+
+     
+    .pull-quote {
+      padding: 3.5rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .pull-quote::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--rule-dark);
+      margin: 0 auto 2rem;
+    }
+
+    .pull-quote blockquote {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 580px;
+      margin: 0 auto;
+      color: var(--ink);
+    }
+
+    .pull-quote cite {
+      display: block;
+      margin-top: 1.2rem;
+      font-family: 'Work Sans', sans-serif;
+      font-style: normal;
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .pull-quote::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--rule-dark);
+      margin: 2rem auto 0;
+    }
+
+     
+    .feature-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      align-items: start;
+    }
+
+    .feature-band .feature-content {}
+
+    .feature-band .feature-kicker {
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-band h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-band p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-mid);
+    }
+
+    .feature-band .feature-sidebar {
+      padding-top: 0.3rem;
+    }
+
+    .feature-band .feature-sidebar h4 {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid var(--rule-dark);
+      margin-bottom: 0;
+    }
+
+    .reading-item {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .reading-num {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--rule);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .reading-item h5 {
+      font-family: 'Fraunces', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .reading-item .reading-meta {
+      font-size: 0.58rem;
+      color: var(--ink-light);
+      margin-top: 0.15rem;
+    }
+
+     
+    .topics-section {
+      padding: 2.5rem 0;
+    }
+
+    .topics-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .topic {
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      color: var(--ink-mid);
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .topic:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+     
+    footer {
+      padding: 2.5rem 0 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid var(--rule-dark);
+    }
+
+    footer a {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--ink); }
+
+    footer .copy {
+      font-size: 0.6rem;
+      color: var(--ink-light);
+      letter-spacing: 0.05em;
+    }
+
+     
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeIn 0.8s ease-out; }
+    .post-entry { animation: fadeIn 0.6s ease-out both; }
+    .post-col:first-child .post-entry:nth-child(1) { animation-delay: 0.1s; }
+    .post-col:first-child .post-entry:nth-child(2) { animation-delay: 0.15s; }
+    .post-col:first-child .post-entry:nth-child(3) { animation-delay: 0.2s; }
+    .post-col:last-child .post-entry:nth-child(1) { animation-delay: 0.25s; }
+    .post-col:last-child .post-entry:nth-child(2) { animation-delay: 0.3s; }
+    .post-col:last-child .post-entry:nth-child(3) { animation-delay: 0.35s; }
+
+    @media (max-width: 768px) {
+      .posts-two-col { grid-template-columns: 1fr; }
+      .post-col { padding: 0; border-left: none; }
+      .post-col:last-child { border-top: 1px solid var(--rule); }
+      .feature-band { grid-template-columns: 1fr; }
+      .masthead { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header class="masthead">
+      <div class="masthead-left">
+        <h1>devblog</h1>
+        <span class="masthead-issue">No. 47</span>
+      </div>
+      <span class="masthead-issue">Est. 2024</span>
+    </header>
+
+    <hr class="double-rule">
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#">Essays</a></li>
+        <li><a href="#">Tutorials</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="#">Archive</a></li>
+      </ul>
+      <span class="nav-date">February 22, 2026</span>
+    </nav>
+
+    
+    <section class="hero">
+      <p class="hero-kicker">Latest</p>
+      <h2>Building a lock-free queue <em>in Rust</em></h2>
+      <p class="hero-lede">Lock-free data structures promise throughput without mutex contention. We build a Michael-Scott queue from scratch, leveraging Rust's type system to make unsafe code as safe as possible.</p>
+      <p class="hero-byline">By <strong>Vitaliy</strong> &middot; February 18, 2026 &middot; 12 min read</p>
+    </section>
+
+    <hr>
+
+    
+    <section class="posts-section">
+      <p class="section-label">Recent</p>
+      <div class="posts-two-col">
+        <div class="post-col">
+          <article class="post-entry">
+            <p class="post-kicker">Rust</p>
+            <h3>Zero-copy deserialization patterns</h3>
+            <p>Exploring serde's zero-copy capabilities and when to reach for borrowed data over owned types.</p>
+            <span class="post-meta">February 14 &middot; 8 min</span>
+          </article>
+          <article class="post-entry">
+            <p class="post-kicker">Infrastructure</p>
+            <h3>Why I moved off Kubernetes</h3>
+            <p>Sometimes the simplest solution is a couple of VMs, a load balancer, and a deploy script.</p>
+            <span class="post-meta">February 8 &middot; 14 min</span>
+          </article>
+          <article class="post-entry">
+            <p class="post-kicker">Go</p>
+            <h3>Structured concurrency in Go 1.24</h3>
+            <p>New errgroup patterns and how they reshape goroutine lifecycle management.</p>
+            <span class="post-meta">January 30 &middot; 10 min</span>
+          </article>
+        </div>
+        <div class="post-col">
+          <article class="post-entry">
+            <p class="post-kicker">Performance</p>
+            <h3>Profiling a 10M RPS gateway</h3>
+            <p>From flamegraphs to fix: finding a 3ms latency spike hiding in production.</p>
+            <span class="post-meta">January 22 &middot; 11 min</span>
+          </article>
+          <article class="post-entry">
+            <p class="post-kicker">Systems</p>
+            <h3>Writing a toy database from scratch</h3>
+            <p>B-trees, write-ahead logs, buffer pools. Building fundamentals to understand abstractions.</p>
+            <span class="post-meta">January 15 &middot; 16 min</span>
+          </article>
+          <article class="post-entry">
+            <p class="post-kicker">DevOps</p>
+            <h3>Nix flakes for reproducible builds</h3>
+            <p>How Nix flakes finally made reproducible development environments practical for teams.</p>
+            <span class="post-meta">January 8 &middot; 9 min</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    
+    <div class="pull-quote">
+      <blockquote>The best code I ever wrote was the code I deleted. Every line removed was a liability discharged.</blockquote>
+      <cite>From "On Deletion" &mdash; January 2026</cite>
+    </div>
+
+    <hr>
+
+    
+    <section class="feature-band">
+      <div class="feature-content">
+        <p class="feature-kicker">Series</p>
+        <h3>Building compilers for the rest of us</h3>
+        <p>A twelve-part series on building a complete programming language from lexer to code generation without the academic jargon. Each installment builds on the last with working code you can run and modify. The goal isn't to produce the next GCC &mdash; it's to demystify the machinery that powers every language you've ever loved.</p>
+      </div>
+      <div class="feature-sidebar">
+        <h4>Most Read</h4>
+        <div class="reading-item">
+          <span class="reading-num">1</span>
+          <div>
+            <h5>Why SQLite is enough</h5>
+            <span class="reading-meta">12,340 reads</span>
+          </div>
+        </div>
+        <div class="reading-item">
+          <span class="reading-num">2</span>
+          <div>
+            <h5>The TCP/IP stack in 200 lines</h5>
+            <span class="reading-meta">9,870 reads</span>
+          </div>
+        </div>
+        <div class="reading-item">
+          <span class="reading-num">3</span>
+          <div>
+            <h5>Git internals for humans</h5>
+            <span class="reading-meta">8,210 reads</span>
+          </div>
+        </div>
+        <div class="reading-item">
+          <span class="reading-num">4</span>
+          <div>
+            <h5>Leaving FAANG was easy</h5>
+            <span class="reading-meta">7,650 reads</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    
+    <section class="topics-section">
+      <p class="section-label">Topics</p>
+      <div class="topics-row">
+        <span class="topic">Rust</span>
+        <span class="topic">Go</span>
+        <span class="topic">Systems</span>
+        <span class="topic">Infrastructure</span>
+        <span class="topic">Performance</span>
+        <span class="topic">Distributed Systems</span>
+        <span class="topic">Compilers</span>
+        <span class="topic">Databases</span>
+      </div>
+    </section>
+
+    <footer>
+      <a href="/">&larr; Back to styles</a>
+      <span class="copy">devblog &middot; 2026</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

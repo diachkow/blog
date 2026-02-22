@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devblog — Letterpress</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --paper: #f5f1eb;
+      --ink: #252220;
+      --ink-mid: #5e5750;
+      --ink-light: #9a9289;
+      --copper: #b06b3e;
+      --rule: #ddd6cc;
+      --rule-dark: #252220;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Karla', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+     
+    .top-bar {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .mark {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stamp {
+      width: 30px;
+      height: 30px;
+      border: 1.5px solid var(--copper);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Newsreader', serif;
+      font-size: 0.75rem;
+      color: var(--copper);
+      font-weight: 500;
+    }
+
+    .mark-title {
+      font-family: 'Newsreader', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+
+    .top-nav a {
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .top-nav a:hover { color: var(--ink); }
+
+    .top-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--copper);
+      transition: width 0.3s;
+    }
+
+    .top-nav a:hover::after { width: 100%; }
+
+     
+    .hero {
+      padding: 5rem 0 4rem;
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 4rem;
+      align-items: end;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-main {}
+
+    .hero-kicker {
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h2 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h2 em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-lede {
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-mid);
+    }
+
+    .hero-aside {
+      padding-bottom: 0.5rem;
+    }
+
+    .hero-aside .aside-label {
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .aside-stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.75rem;
+    }
+
+    .aside-stat .label { color: var(--ink-light); font-weight: 300; }
+    .aside-stat .val {
+      font-family: 'Newsreader', serif;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+     
+    .posts-section {
+      padding: 3rem 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-head h3 {
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+
+    .section-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 2rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--rule);
+      cursor: pointer;
+      transition: padding-left 0.3s ease;
+    }
+
+    .post-item:hover { padding-left: 0.8rem; }
+
+    .post-date {
+      padding-top: 0.3rem;
+    }
+
+    .post-date .month {
+      font-family: 'Newsreader', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      display: block;
+      color: var(--ink-mid);
+    }
+
+    .post-date .day {
+      font-size: 0.62rem;
+      color: var(--ink-light);
+      letter-spacing: 0.03em;
+    }
+
+    .post-body .post-kicker {
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 0.35rem;
+    }
+
+    .post-body h4 {
+      font-family: 'Newsreader', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-body .excerpt {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    .post-body .read-more {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      transition: color 0.3s;
+    }
+
+    .post-item:hover .read-more { color: var(--copper); }
+
+     
+    .interlude {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .interlude blockquote {
+      font-family: 'Newsreader', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--ink-mid);
+    }
+
+    .interlude .quote-mark {
+      font-family: 'Newsreader', serif;
+      font-size: 4rem;
+      color: var(--rule);
+      line-height: 1;
+      margin-bottom: -1rem;
+      display: block;
+    }
+
+    .interlude cite {
+      display: block;
+      margin-top: 1.2rem;
+      font-family: 'Karla', sans-serif;
+      font-style: normal;
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+     
+    .feature-section {
+      padding: 3rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .feature-block .feature-kicker {
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-block h3 {
+      font-family: 'Newsreader', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 1.25;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-block p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink-mid);
+    }
+
+    .feature-list {
+      list-style: none;
+      padding-top: 0.3rem;
+    }
+
+    .feature-list-head {
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid var(--rule-dark);
+      margin-bottom: 0;
+    }
+
+    .feature-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-family: 'Newsreader', serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .feature-list li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--copper);
+      flex-shrink: 0;
+    }
+
+     
+    .topics-section {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .topics-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      font-size: 0.62rem;
+      font-weight: 400;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      color: var(--ink-mid);
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .pill:hover {
+      border-color: var(--copper);
+      color: var(--copper);
+    }
+
+     
+    footer {
+      padding: 2.5rem 0 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      font-size: 0.65rem;
+      color: var(--ink-light);
+      transition: color 0.3s;
+    }
+
+    footer a:hover { color: var(--copper); }
+
+    footer .colophon {
+      font-size: 0.6rem;
+      color: var(--ink-light);
+      text-align: right;
+      line-height: 1.7;
+    }
+
+     
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeIn 0.9s ease-out; }
+    .post-item:nth-child(1) { animation: fadeIn 0.7s ease-out 0.05s both; }
+    .post-item:nth-child(2) { animation: fadeIn 0.7s ease-out 0.12s both; }
+    .post-item:nth-child(3) { animation: fadeIn 0.7s ease-out 0.19s both; }
+    .post-item:nth-child(4) { animation: fadeIn 0.7s ease-out 0.26s both; }
+    .post-item:nth-child(5) { animation: fadeIn 0.7s ease-out 0.33s both; }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; gap: 2rem; }
+      .feature-section { grid-template-columns: 1fr; }
+      .post-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .top-bar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    
+    <div class="top-bar">
+      <div class="mark">
+        <div class="stamp">V</div>
+        <span class="mark-title">devblog</span>
+      </div>
+      <ul class="top-nav">
+        <li><a href="#">Writing</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">RSS</a></li>
+      </ul>
+    </div>
+
+    
+    <section class="hero">
+      <div class="hero-main">
+        <p class="hero-kicker">Latest</p>
+        <h2>Building a lock-free queue <em>in Rust</em></h2>
+        <p class="hero-lede">Lock-free data structures promise throughput without mutex contention. We build a Michael-Scott queue from scratch, leveraging the type system to make unsafe code as safe as possible.</p>
+      </div>
+      <aside class="hero-aside">
+        <p class="aside-label">At a Glance</p>
+        <div class="aside-stat">
+          <span class="label">Published</span>
+          <span class="val">Feb 18, 2026</span>
+        </div>
+        <div class="aside-stat">
+          <span class="label">Reading time</span>
+          <span class="val">12 minutes</span>
+        </div>
+        <div class="aside-stat">
+          <span class="label">Topic</span>
+          <span class="val">Rust, Concurrency</span>
+        </div>
+        <div class="aside-stat">
+          <span class="label">Series</span>
+          <span class="val">Systems Deep Dives</span>
+        </div>
+      </aside>
+    </section>
+
+    
+    <section class="posts-section">
+      <div class="section-head">
+        <h3>Recent Writing</h3>
+      </div>
+
+      <article class="post-item">
+        <div class="post-date">
+          <span class="month">Feb</span>
+          <span class="day">14, 2026</span>
+        </div>
+        <div class="post-body">
+          <p class="post-kicker">Rust</p>
+          <h4>Zero-copy deserialization patterns</h4>
+          <p class="excerpt">Exploring serde's zero-copy capabilities and when to reach for borrowed data over owned types.</p>
+          <span class="read-more">Continue &rarr;</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div class="post-date">
+          <span class="month">Feb</span>
+          <span class="day">8, 2026</span>
+        </div>
+        <div class="post-body">
+          <p class="post-kicker">Infrastructure</p>
+          <h4>Why I moved off Kubernetes</h4>
+          <p class="excerpt">Sometimes the simplest solution is a couple of VMs, a load balancer, and a deploy script.</p>
+          <span class="read-more">Continue &rarr;</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div class="post-date">
+          <span class="month">Jan</span>
+          <span class="day">30, 2026</span>
+        </div>
+        <div class="post-body">
+          <p class="post-kicker">Go</p>
+          <h4>Structured concurrency in Go 1.24</h4>
+          <p class="excerpt">New errgroup patterns and how they reshape the way we think about goroutine lifecycles.</p>
+          <span class="read-more">Continue &rarr;</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div class="post-date">
+          <span class="month">Jan</span>
+          <span class="day">22, 2026</span>
+        </div>
+        <div class="post-body">
+          <p class="post-kicker">Performance</p>
+          <h4>Profiling a 10M RPS gateway</h4>
+          <p class="excerpt">From flamegraphs to fix: finding and eliminating a 3ms latency spike in production.</p>
+          <span class="read-more">Continue &rarr;</span>
+        </div>
+      </article>
+
+      <article class="post-item">
+        <div class="post-date">
+          <span class="month">Jan</span>
+          <span class="day">15, 2026</span>
+        </div>
+        <div class="post-body">
+          <p class="post-kicker">Systems</p>
+          <h4>Writing a toy database from scratch</h4>
+          <p class="excerpt">B-trees, write-ahead logs, buffer pools. Building the fundamentals to understand the abstractions.</p>
+          <span class="read-more">Continue &rarr;</span>
+        </div>
+      </article>
+    </section>
+
+    
+    <div class="interlude">
+      <span class="quote-mark">&ldquo;</span>
+      <blockquote>Simplicity is the ultimate sophistication. In code as in craft, what you choose to leave out matters more than what you put in.</blockquote>
+      <cite>On the practice of deletion &mdash; January 2026</cite>
+    </div>
+
+    
+    <section class="feature-section">
+      <div class="feature-block">
+        <p class="feature-kicker">Series</p>
+        <h3>Building compilers for the rest of us</h3>
+        <p>Twelve parts on building a complete programming language from lexer to code generation. No academic jargon, just working code you can run and modify. Demystifying the machinery that powers every language you've ever loved.</p>
+      </div>
+      <div>
+        <p class="feature-list-head">Chapters</p>
+        <ul class="feature-list">
+          <li>Tokenizing arithmetic</li>
+          <li>Recursive descent parsing</li>
+          <li>Building the AST</li>
+          <li>Type checking</li>
+          <li>Emitting WebAssembly</li>
+        </ul>
+      </div>
+    </section>
+
+    
+    <section class="topics-section">
+      <div class="section-head">
+        <h3>Topics</h3>
+      </div>
+      <div class="topics-wrap">
+        <span class="pill">Rust</span>
+        <span class="pill">Go</span>
+        <span class="pill">Systems</span>
+        <span class="pill">Infrastructure</span>
+        <span class="pill">Performance</span>
+        <span class="pill">Distributed Systems</span>
+        <span class="pill">Compilers</span>
+        <span class="pill">Databases</span>
+      </div>
+    </section>
+
+    <footer>
+      <a href="/">&larr; Back to styles</a>
+      <div class="colophon">
+        devblog &middot; 2026<br>
+        Set in Newsreader &amp; Karla
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

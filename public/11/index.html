@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devblog — Zone PDA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Source+Code+Pro:wght@300;400;500;600;700&family=Play:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #1a1c14;
+      --bg-panel: #1e201a;
+      --bg-dark: #14160f;
+      --olive: #4a5a2a;
+      --olive-dim: #333d1e;
+      --olive-bright: #6b8040;
+      --yellow: #d4b830;
+      --yellow-dim: #8a7a20;
+      --yellow-bright: #f0d848;
+      --rad-orange: #c06020;
+      --rad-red: #a83030;
+      --rule: #2a2e22;
+      --text: #a8a890;
+      --text-dim: #5e5e50;
+      --text-bright: #d0d0b8;
+      --blue: #4080a0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Code Pro', 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+     
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+     
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    a { color: var(--olive-bright); text-decoration: none; }
+    a:hover { color: var(--yellow); }
+
+    .shell {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+     
+    .pda-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .pda-bar .sig {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pda-bar .sig-bars {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+    }
+
+    .pda-bar .sig-bars span {
+      display: block;
+      width: 3px;
+      background: var(--olive);
+    }
+
+    .pda-bar .sig-bars span:nth-child(1) { height: 4px; }
+    .pda-bar .sig-bars span:nth-child(2) { height: 7px; }
+    .pda-bar .sig-bars span:nth-child(3) { height: 10px; }
+    .pda-bar .sig-bars span:nth-child(4) { height: 13px; background: var(--olive-dim); }
+
+    .pda-bar .rad-counter {
+      color: var(--yellow-dim);
+    }
+
+    .pda-bar .rad-counter .val {
+      color: var(--yellow);
+      font-weight: 600;
+    }
+
+     
+    .header {
+      padding: 2rem 0 1.5rem;
+      border-bottom: 2px solid var(--olive-dim);
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .site-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.6rem;
+      color: var(--olive-bright);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .site-title .zone {
+      color: var(--yellow);
+      font-size: 0.65rem;
+      vertical-align: super;
+      letter-spacing: 0.15em;
+    }
+
+    .site-subtitle {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+      font-weight: 300;
+    }
+
+    .header-coords {
+      text-align: right;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+
+    .header-coords .lbl { color: var(--olive-dim); }
+    .header-coords .val { color: var(--olive-bright); font-weight: 500; }
+
+     
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      margin-top: 1rem;
+      list-style: none;
+    }
+
+    .tab-bar a {
+      display: block;
+      padding: 0.45rem 1rem;
+      font-family: 'Play', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      border: 1px solid var(--rule);
+      border-bottom: 2px solid var(--olive-dim);
+      background: var(--bg-dark);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .tab-bar a:hover { color: var(--text-bright); background: var(--bg-panel); }
+
+    .tab-bar a.active {
+      color: var(--olive-bright);
+      background: var(--bg-panel);
+      border-bottom-color: var(--olive-bright);
+    }
+
+     
+    .anomaly-alert {
+      background: linear-gradient(90deg, rgba(168, 48, 48, 0.1), transparent);
+      border: 1px solid var(--rad-red);
+      border-left: 3px solid var(--rad-red);
+      padding: 0.7rem 1.2rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+    }
+
+    .anomaly-alert .warn-icon {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.6rem;
+      color: var(--rad-red);
+      border: 1px solid var(--rad-red);
+      padding: 0.15rem 0.4rem;
+      white-space: nowrap;
+      animation: alertPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .anomaly-alert .alert-text { color: var(--text-dim); }
+    .anomaly-alert .alert-text strong { color: var(--text); font-weight: 500; }
+
+     
+    .pda-screen {
+      border: 1px solid var(--olive-dim);
+      background: var(--bg-panel);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .pda-screen-header {
+      background: var(--olive-dim);
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pda-screen-header .label {
+      font-family: 'Play', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--bg);
+    }
+
+    .pda-screen-header .status {
+      font-size: 0.55rem;
+      color: var(--bg);
+      opacity: 0.7;
+    }
+
+    .pda-screen-body {
+      padding: 1.8rem 2rem;
+    }
+
+    .pda-screen-body .topic-tag {
+      font-family: 'Play', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 0.6rem;
+    }
+
+    .pda-screen-body h2 {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--text-bright);
+      margin-bottom: 0.8rem;
+      line-height: 1.25;
+    }
+
+    .pda-screen-body .meta {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .pda-screen-body .meta .sep { color: var(--rule); }
+
+    .pda-screen-body p {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+     
+    .rad-map {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 1.5rem 0;
+    }
+
+    .rad-cell {
+      background: var(--bg-panel);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .rad-cell .rad-val {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.4rem;
+      color: var(--olive-bright);
+    }
+
+    .rad-cell .rad-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    .rad-cell .rad-bar {
+      height: 3px;
+      background: var(--bg-dark);
+      margin-top: 0.5rem;
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .rad-cell .rad-fill {
+      height: 100%;
+      border-radius: 1px;
+    }
+
+    .rad-fill.green { background: var(--olive-bright); }
+    .rad-fill.yellow { background: var(--yellow); }
+    .rad-fill.orange { background: var(--rad-orange); }
+
+     
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0;
+    }
+
+    .sec-head .icon {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.5rem;
+      color: var(--olive);
+      border: 1px solid var(--olive);
+      padding: 0.15rem 0.35rem;
+    }
+
+    .sec-head h3 {
+      font-family: 'Play', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--olive-dim);
+    }
+
+     
+    .entries {
+      list-style: none;
+    }
+
+    .entry {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .entry:hover {
+      background: rgba(74, 90, 42, 0.06);
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .entry-threat {
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.5rem;
+      text-align: center;
+      padding-top: 0.3rem;
+    }
+
+    .threat-level {
+      display: block;
+      width: 2.5rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      text-align: center;
+      border: 1px solid var(--rule);
+      margin-bottom: 0.15rem;
+      font-size: 0.55rem;
+      font-weight: 600;
+    }
+
+    .threat-level.low { color: var(--olive-bright); border-color: var(--olive-dim); }
+    .threat-level.med { color: var(--yellow); border-color: var(--yellow-dim); }
+    .threat-level.high { color: var(--rad-orange); border-color: var(--rad-orange); }
+    .threat-level.crit { color: var(--rad-red); border-color: var(--rad-red); }
+
+    .entry-cat {
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .entry-main .entry-title {
+      font-family: 'Play', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .entry-main .entry-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .entry-right {
+      text-align: right;
+      padding-top: 0.2rem;
+      white-space: nowrap;
+    }
+
+    .entry-date {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      display: block;
+    }
+
+    .entry-size {
+      font-size: 0.55rem;
+      color: var(--olive-dim);
+      border: 1px solid var(--rule);
+      padding: 0.1rem 0.35rem;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+
+     
+    .stash-box {
+      border: 1px solid var(--rule);
+      background: var(--bg-dark);
+      margin: 1.5rem 0;
+    }
+
+    .stash-head {
+      background: var(--olive-dim);
+      padding: 0.5rem 1.2rem;
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stash-head .stash-status {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.55rem;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+
+    .stash-body {
+      padding: 1.5rem;
+    }
+
+    .stash-title {
+      font-family: 'Play', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 0.5rem;
+    }
+
+    .stash-desc {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+
+    .stash-items {
+      list-style: none;
+    }
+
+    .stash-items li {
+      padding: 0.4rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+      font-size: 0.75rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(42, 46, 34, 0.5);
+    }
+
+    .stash-items li::before {
+      content: '[ ]';
+      position: absolute;
+      left: 0;
+      font-size: 0.6rem;
+      color: var(--olive-dim);
+    }
+
+    .stash-items li.found::before {
+      content: '[+]';
+      color: var(--olive-bright);
+    }
+
+    .stash-items li.found {
+      color: var(--text-dim);
+    }
+
+     
+    .comm-msg {
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--blue);
+      background: var(--bg-panel);
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .comm-msg .from {
+      font-family: 'Play', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+    }
+
+    .comm-msg blockquote {
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .comm-msg .timestamp {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 0.6rem;
+    }
+
+     
+    footer {
+      border-top: 2px solid var(--olive-dim);
+      margin-top: 2rem;
+      padding: 1.2rem 0 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      font-family: 'Play', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+
+    footer a:hover { color: var(--olive-bright); }
+
+    footer .ver {
+      font-size: 0.55rem;
+      color: var(--text-dim);
+    }
+
+     
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glitchH {
+      0%, 90%, 100% { transform: translateX(0); }
+      92% { transform: translateX(-2px); }
+      94% { transform: translateX(2px); }
+      96% { transform: translateX(-1px); }
+    }
+
+    .pda-screen { animation: fadeIn 0.6s ease-out; }
+    .entry:nth-child(1) { animation: fadeIn 0.4s ease-out 0.05s both; }
+    .entry:nth-child(2) { animation: fadeIn 0.4s ease-out 0.1s both; }
+    .entry:nth-child(3) { animation: fadeIn 0.4s ease-out 0.15s both; }
+    .entry:nth-child(4) { animation: fadeIn 0.4s ease-out 0.2s both; }
+    .entry:nth-child(5) { animation: fadeIn 0.4s ease-out 0.25s both; }
+    .entry:nth-child(6) { animation: fadeIn 0.4s ease-out 0.3s both; }
+
+    .site-title { animation: glitchH 8s infinite; }
+
+    @media (max-width: 768px) {
+      .entry { grid-template-columns: 1fr; gap: 0.5rem; }
+      .entry-threat { display: none; }
+      .entry-right { text-align: left; }
+      .rad-map { grid-template-columns: 1fr; }
+      .header-row { flex-direction: column; align-items: flex-start; }
+      .header-coords { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    
+    <div class="pda-bar">
+      <div class="sig">
+        <div class="sig-bars">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        PDA UPLINK // 02.22.2026
+      </div>
+      <div class="rad-counter">
+        RAD: <span class="val">0.12</span> mSv/h
+      </div>
+    </div>
+
+    
+    <header class="header">
+      <div class="header-row">
+        <div>
+          <h1 class="site-title">DEVBLOG <span class="zone">ZONE</span></h1>
+          <p class="site-subtitle">// field notes from the exclusion zone of software engineering</p>
+        </div>
+        <div class="header-coords">
+          <span class="lbl">SECTOR:</span> <span class="val">N-7 CORDON</span><br>
+          <span class="lbl">FACTION:</span> <span class="val">LONER</span><br>
+          <span class="lbl">RANK:</span> <span class="val">EXPERIENCED</span>
+        </div>
+      </div>
+      <ul class="tab-bar">
+        <li><a href="#" class="active">MAP</a></li>
+        <li><a href="#">DIARY</a></li>
+        <li><a href="#">CONTACTS</a></li>
+        <li><a href="#">RANKINGS</a></li>
+        <li><a href="#">STATS</a></li>
+      </ul>
+    </header>
+
+    
+    <div class="anomaly-alert">
+      <span class="warn-icon">EMISSION</span>
+      <span class="alert-text"><strong>Warning:</strong> An emission is approaching. Seek shelter immediately. New blog post on surviving production outages.</span>
+    </div>
+
+    
+    <article class="pda-screen">
+      <div class="pda-screen-header">
+        <span class="label">Active Task</span>
+        <span class="status">PRIORITY: HIGH</span>
+      </div>
+      <div class="pda-screen-body">
+        <p class="topic-tag">Rust // Concurrency</p>
+        <h2>Building a Lock-Free Queue in Rust</h2>
+        <div class="meta">
+          <span>02.18.2026</span>
+          <span class="sep">|</span>
+          <span>12 min read</span>
+          <span class="sep">|</span>
+          <span>Clearance: Open</span>
+        </div>
+        <p>Lock-free data structures are the anomalies of concurrent programming. They promise throughput without the weight of mutex contention, but demand deep knowledge of memory ordering, compare-and-swap operations, and the dreaded ABA problem. We traverse this dangerous territory and build a Michael-Scott queue from scratch.</p>
+      </div>
+    </article>
+
+    
+    <div class="rad-map">
+      <div class="rad-cell">
+        <div class="rad-val">47</div>
+        <div class="rad-label">Field Reports</div>
+        <div class="rad-bar"><div class="rad-fill green" style="width: 85%"></div></div>
+      </div>
+      <div class="rad-cell">
+        <div class="rad-val">12k</div>
+        <div class="rad-label">Stalkers Reading</div>
+        <div class="rad-bar"><div class="rad-fill yellow" style="width: 70%"></div></div>
+      </div>
+      <div class="rad-cell">
+        <div class="rad-val">847</div>
+        <div class="rad-label">Days in Zone</div>
+        <div class="rad-bar"><div class="rad-fill orange" style="width: 92%"></div></div>
+      </div>
+    </div>
+
+    
+    <div class="sec-head">
+      <span class="icon">PDA</span>
+      <h3>Recent Field Reports</h3>
+    </div>
+
+    <ul class="entries">
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level high">!</span>
+          <span class="entry-cat">Rust</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Zero-Copy Deserialization Patterns</h3>
+          <p class="entry-desc">Serde's zero-copy capabilities — when to use borrowed data over owned types in irradiated codebases.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">02.14.2026</span>
+          <span class="entry-size">8 min</span>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level med">~</span>
+          <span class="entry-cat">Infra</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Why I Moved Off Kubernetes</h3>
+          <p class="entry-desc">Sometimes the simplest solution is a couple of VMs, a balancer, and a deploy script. Not every artifact requires a full expedition.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">02.08.2026</span>
+          <span class="entry-size">14 min</span>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level low">&bull;</span>
+          <span class="entry-cat">Go</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Structured Concurrency in Go 1.24</h3>
+          <p class="entry-desc">New errgroup patterns and how they reshape goroutine lifecycle management in the Zone.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">01.30.2026</span>
+          <span class="entry-size">10 min</span>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level crit">!!</span>
+          <span class="entry-cat">Perf</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Profiling a 10M RPS Gateway</h3>
+          <p class="entry-desc">From flamegraphs to fix — hunting a 3ms latency anomaly hiding in production like a bloodsucker in the reeds.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">01.22.2026</span>
+          <span class="entry-size">11 min</span>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level med">~</span>
+          <span class="entry-cat">Sys</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Writing a Toy Database from Scratch</h3>
+          <p class="entry-desc">B-trees, WAL, buffer pools. Building the fundamentals to understand the artifacts we rely on daily.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">01.15.2026</span>
+          <span class="entry-size">16 min</span>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="entry-threat">
+          <span class="threat-level low">&bull;</span>
+          <span class="entry-cat">DevOps</span>
+        </div>
+        <div class="entry-main">
+          <h3 class="entry-title">Nix Flakes for Reproducible Builds</h3>
+          <p class="entry-desc">How Nix flakes made reproducible dev environments practical for every stalker in the squad.</p>
+        </div>
+        <div class="entry-right">
+          <span class="entry-date">01.08.2026</span>
+          <span class="entry-size">9 min</span>
+        </div>
+      </li>
+    </ul>
+
+    
+    <div class="comm-msg">
+      <p class="from">Incoming Transmission // Sidorovich</p>
+      <blockquote>"The best code I ever wrote was code I deleted. Every line removed was an anomaly defused — a future blowout averted before it could pull the whole system into the void."</blockquote>
+      <p class="timestamp">Received: 02.20.2026 // 03:14 UTC</p>
+    </div>
+
+    
+    <div class="stash-box">
+      <div class="stash-head">
+        <span>Stash: Active Mission</span>
+        <span class="stash-status">3/5 COMPLETE</span>
+      </div>
+      <div class="stash-body">
+        <h3 class="stash-title">Compilers for the Rest of Us</h3>
+        <p class="stash-desc">A twelve-part expedition through compiler construction. From tokenizing arithmetic to emitting machine code. No academic jargon — just raw engineering extracted from the Zone.</p>
+        <ul class="stash-items">
+          <li class="found">Tokenize arithmetic expressions</li>
+          <li class="found">Recursive descent parsing</li>
+          <li class="found">Build the AST</li>
+          <li>Implement type checking</li>
+          <li>Emit WebAssembly output</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <a href="/">&lt; EXIT TO CORDON</a>
+      <span class="ver">PDA v3.12 // ZONE EDITION // GOOD HUNTING, STALKER</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
