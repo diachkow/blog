@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Dark Card Layout</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #bb86fc;
+            --text: #ffffff;
+            --text-secondary: #b3b3b3;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        .navbar {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), #03dac6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+        }
+        .hero {
+            padding: 5rem 5%;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3rem; margin: 0; }
+        .hero p { color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 1rem auto; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 5%;
+        }
+        .card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-color: rgba(187, 134, 252, 0.3);
+        }
+        .card-tag {
+            color: var(--primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+        }
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">PyDev</div>
+        <div class="nav-links">
+            <a href="#">Articles</a>
+            <a href="#">Snippets</a>
+            <a href="#">About</a>
+        </div>
+    </nav>
+    <div class="hero">
+        <h1>Engineering Python Systems</h1>
+        <p>Insights on architecture, performance, and best practices for modern backend development.</p>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <div class="card-tag">Architecture</div>
+            <h2 class="card-title">Event-Driven Python Microservices</h2>
+            <p>Designing scalable event-driven architectures using Apache Kafka and Python, focusing on fault tolerance and eventual consistency.</p>
+        </div>
+        <div class="card">
+            <div class="card-tag">Performance</div>
+            <h2 class="card-title">Memory Profiling in CPython</h2>
+            <p>A comprehensive guide to finding memory leaks in long-running Python applications using tools like tracemalloc and objgraph.</p>
+        </div>
+        <div class="card">
+            <div class="card-tag">Database</div>
+            <h2 class="card-title">Advanced SQLAlchemy Patterns</h2>
+            <p>Moving beyond basic ORM usage: handling complex joins, window functions, and bulk operations efficiently.</p>
+        </div>
+    </div>
+</body>
+</html>
