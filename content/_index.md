@@ -1,3 +1,3 @@
 ---
-title: "Style Trials"
+title: "diachkow.dev"
 ---
