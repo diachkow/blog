@@ -3,327 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ .Site.Title }} — Style Explorer</title>
+  <title>{{ .Site.Title }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
 
     :root {
-      --bg: #08080a;
-      --surface: #111114;
-      --border: #1e1e24;
-      --text: #e8e6e3;
-      --text-dim: #6b6a6f;
-      --accent-1: #ff6b35;
-      --accent-2: #00d4aa;
-      --accent-3: #7c6aef;
-      --accent-4: #e63988;
-      --accent-5: #f5c542;
-      --accent-6: #6b8f71;
-      --accent-7: #b06b3e;
-      --accent-8: #c9a84c;
-      --accent-9: #d4a843;
-      --accent-10: #c4a24e;
-      --accent-11: #6b8040;
-      --accent-12: #c8862a;
+      --bg: #0f1110;
+      --panel: #181b19;
+      --line: #2a302c;
+      --text: #dbe0db;
+      --muted: #93a097;
+      --fallout: #d4a843;
+      --stalker: #738d45;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      margin: 0;
       min-height: 100vh;
-      overflow-x: hidden;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(212, 168, 67, 0.1), transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(115, 141, 69, 0.14), transparent 38%),
+        var(--bg);
     }
 
-    /* Noise overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    .container {
-      max-width: 1100px;
+    .shell {
+      max-width: 860px;
       margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    header {
-      padding: 6rem 0 2rem;
-      text-align: center;
-    }
-
-    header .eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 1.5rem;
+      padding: 4rem 1.25rem 3rem;
     }
 
     h1 {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 400;
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    h1 em {
-      font-style: italic;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-4), var(--accent-3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
 
     .subtitle {
-      font-size: 1.05rem;
-      color: var(--text-dim);
-      font-weight: 300;
-      max-width: 500px;
-      margin: 0 auto;
+      margin: 0.8rem 0 2.2rem;
+      color: var(--muted);
+      max-width: 42ch;
       line-height: 1.6;
+      font-size: 0.98rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin: 4rem 0 6rem;
-      border-radius: 16px;
-      overflow: hidden;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
     }
 
     .card {
-      background: var(--surface);
-      padding: 2.5rem 2rem;
-      position: relative;
+      display: block;
       text-decoration: none;
       color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      transition: background 0.4s ease;
-      cursor: pointer;
-      overflow: hidden;
-      min-height: 220px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.02), transparent 45%), var(--panel);
+      padding: 1.3rem 1.2rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #3b443e;
     }
 
-    .card:nth-child(1)::before { background: var(--accent-1); }
-    .card:nth-child(2)::before { background: var(--accent-2); }
-    .card:nth-child(3)::before { background: var(--accent-3); }
-    .card:nth-child(4)::before { background: var(--accent-4); }
-    .card:nth-child(5)::before { background: var(--accent-5); }
-    .card:nth-child(6)::before { background: var(--accent-6); }
-    .card:nth-child(7)::before { background: var(--accent-7); }
-    .card:nth-child(8)::before { background: var(--accent-8); }
-    .card:nth-child(9)::before { background: var(--accent-9); }
-    .card:nth-child(10)::before { background: var(--accent-10); }
-    .card:nth-child(11)::before { background: var(--accent-11); }
-    .card:nth-child(12)::before { background: var(--accent-12); }
-
-    .card:hover::before { opacity: 1; }
-    .card:hover { background: #16161a; }
-
-    .card-number {
-      font-family: 'Instrument Serif', serif;
-      font-size: 3.5rem;
-      line-height: 1;
-      font-weight: 400;
-      transition: transform 0.4s ease;
+    .label {
+      margin: 0 0 0.4rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
     }
 
-    .card:nth-child(1) .card-number { color: var(--accent-1); }
-    .card:nth-child(2) .card-number { color: var(--accent-2); }
-    .card:nth-child(3) .card-number { color: var(--accent-3); }
-    .card:nth-child(4) .card-number { color: var(--accent-4); }
-    .card:nth-child(5) .card-number { color: var(--accent-5); }
-    .card:nth-child(6) .card-number { color: var(--accent-6); }
-    .card:nth-child(7) .card-number { color: var(--accent-7); }
-    .card:nth-child(8) .card-number { color: var(--accent-8); }
-    .card:nth-child(9) .card-number { color: var(--accent-9); }
-    .card:nth-child(10) .card-number { color: var(--accent-10); }
-    .card:nth-child(11) .card-number { color: var(--accent-11); }
-    .card:nth-child(12) .card-number { color: var(--accent-12); }
-
-    .card:hover .card-number { transform: translateX(8px); }
-
-    .card-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
+    .card p {
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
     }
 
-    .card-desc {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    .card-arrow {
-      margin-top: auto;
-      align-self: flex-end;
-      width: 32px;
-      height: 32px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .card-arrow svg {
-      width: 14px;
-      height: 14px;
-      stroke: var(--text-dim);
-      transition: stroke 0.3s ease, transform 0.3s ease;
-    }
-
-    .card:hover .card-arrow {
-      border-color: var(--text);
-    }
-
-    .card:hover .card-arrow svg {
-      stroke: var(--text);
-      transform: translate(2px, -2px);
-    }
-
-    /* Grid is even (12 cards), no spanning needed */
-
-    footer {
-      text-align: center;
-      padding: 2rem 0 4rem;
-      font-size: 0.75rem;
-      color: var(--text-dim);
+    .path {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
       letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    /* Entrance animations */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    header { animation: fadeUp 0.8s ease-out; }
-    .card:nth-child(1) { animation: fadeUp 0.6s ease-out 0.1s both; }
-    .card:nth-child(2) { animation: fadeUp 0.6s ease-out 0.2s both; }
-    .card:nth-child(3) { animation: fadeUp 0.6s ease-out 0.3s both; }
-    .card:nth-child(4) { animation: fadeUp 0.6s ease-out 0.4s both; }
-    .card:nth-child(5) { animation: fadeUp 0.6s ease-out 0.5s both; }
-    .card:nth-child(6) { animation: fadeUp 0.6s ease-out 0.6s both; }
-    .card:nth-child(7) { animation: fadeUp 0.6s ease-out 0.7s both; }
-    .card:nth-child(8) { animation: fadeUp 0.6s ease-out 0.8s both; }
-    .card:nth-child(9) { animation: fadeUp 0.6s ease-out 0.9s both; }
-    .card:nth-child(10) { animation: fadeUp 0.6s ease-out 1.0s both; }
-    .card:nth-child(11) { animation: fadeUp 0.6s ease-out 1.1s both; }
-    .card:nth-child(12) { animation: fadeUp 0.6s ease-out 1.2s both; }
+    .fallout .label, .fallout .path { color: var(--fallout); }
+    .stalker .label, .stalker .path { color: var(--stalker); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <p class="eyebrow">Frontend Style Explorer</p>
-      <h1>Twelve ways to <em>devblog</em></h1>
-      <p class="subtitle">Each link below opens a completely unique devblog frontpage — same content, radically different aesthetics.</p>
-    </header>
+  <main class="shell">
+    <h1>Style Trials</h1>
+    <p class="subtitle">Only two variants are kept. Pick one to open the full layout.</p>
 
-    <div class="grid">
-      <a href="/1/" class="card">
-        <span class="card-number">01</span>
-        <span class="card-title">Brutalist</span>
-        <span class="card-desc">Raw concrete energy. Thick borders, monospace type, anti-design maximalism that screams authenticity.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
+    <section class="grid">
+      <a href="/claude-fallout-try/" class="card fallout">
+        <h2 class="label">Claude Fallout Try</h2>
+        <p>Amber terminal style inspired by post-apocalyptic interfaces.</p>
+        <span class="path">/claude-fallout-try</span>
       </a>
-      <a href="/2/" class="card">
-        <span class="card-number">02</span>
-        <span class="card-title">Editorial</span>
-        <span class="card-desc">Old-world print meets modern web. Serif typography, columnar layouts, the gravitas of a broadsheet.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/3/" class="card">
-        <span class="card-number">03</span>
-        <span class="card-title">Terminal</span>
-        <span class="card-desc">Green phosphor on black glass. CRT scanlines, blinking cursors, the romance of the command line.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/4/" class="card">
-        <span class="card-number">04</span>
-        <span class="card-title">Aurora</span>
-        <span class="card-desc">Frosted glass floating over northern lights. Glassmorphism, depth, and ethereal gradient animations.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/5/" class="card">
-        <span class="card-number">05</span>
-        <span class="card-title">Zen</span>
-        <span class="card-desc">Japanese minimalism. Generous whitespace, vertical rhythm, the quiet beauty of restraint and intentional emptiness.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/6/" class="card">
-        <span class="card-number">06</span>
-        <span class="card-title">Broadsheet</span>
-        <span class="card-desc">Editorial precision meets zen restraint. Fraunces serif, double-rule masthead, firm columns with breathing room.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/7/" class="card">
-        <span class="card-number">07</span>
-        <span class="card-title">Letterpress</span>
-        <span class="card-desc">Warm craft. Newsreader serif, copper accents, asymmetric hero, the feel of a well-made printed piece.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/8/" class="card">
-        <span class="card-number">08</span>
-        <span class="card-title">Nocturne</span>
-        <span class="card-desc">Dark and literary. Cursive Gwendolyn headings over Libre Baskerville body, gold accents glowing against charcoal.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/9/" class="card">
-        <span class="card-number">09</span>
-        <span class="card-title">Wasteland</span>
-        <span class="card-desc">Amber CRT glow, Pip-Boy tabs, atomic-age typography. Patrolling the codebase almost makes you wish for a nuclear winter.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/10/" class="card">
-        <span class="card-number">10</span>
-        <span class="card-title">The Codex</span>
-        <span class="card-desc">Dark leather bestiary. Cinzel Decorative headers, burgundy contract notices, the gravitas of a medieval chronicle.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/11/" class="card">
-        <span class="card-number">11</span>
-        <span class="card-title">Zone PDA</span>
-        <span class="card-desc">Military olive, radiation yellow, post-Soviet PDA interface. Field reports from the exclusion zone of software engineering.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-      <a href="/12/" class="card">
-        <span class="card-number">12</span>
-        <span class="card-title">Stone Chronicle</span>
-        <span class="card-desc">Blackletter on dark stone. Iron bolts, torch-amber glow, rough medieval manuscript carved by a monk who codes.</span>
-        <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
-      </a>
-    </div>
 
-    <footer>{{ .Site.Title }} &middot; Style Explorer</footer>
-  </div>
+      <a href="/claude-stalker-try/" class="card stalker">
+        <h2 class="label">Claude Stalker Try</h2>
+        <p>Field PDA look with olive tones and zone-style data panels.</p>
+        <span class="path">/claude-stalker-try</span>
+      </a>
+    </section>
+  </main>
 </body>
 </html>

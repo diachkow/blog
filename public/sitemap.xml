@@ -2,34 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/categories/</loc>
+    <loc>/categories/</loc>
   </url><url>
-    <loc>//localhost:1313/1/</loc>
+    <loc>/claude-fallout-try/</loc>
   </url><url>
-    <loc>//localhost:1313/10/</loc>
+    <loc>/claude-stalker-try/</loc>
   </url><url>
-    <loc>//localhost:1313/11/</loc>
+    <loc>/</loc>
   </url><url>
-    <loc>//localhost:1313/12/</loc>
-  </url><url>
-    <loc>//localhost:1313/2/</loc>
-  </url><url>
-    <loc>//localhost:1313/3/</loc>
-  </url><url>
-    <loc>//localhost:1313/4/</loc>
-  </url><url>
-    <loc>//localhost:1313/5/</loc>
-  </url><url>
-    <loc>//localhost:1313/6/</loc>
-  </url><url>
-    <loc>//localhost:1313/7/</loc>
-  </url><url>
-    <loc>//localhost:1313/8/</loc>
-  </url><url>
-    <loc>//localhost:1313/9/</loc>
-  </url><url>
-    <loc>//localhost:1313/tags/</loc>
-  </url><url>
-    <loc>//localhost:1313/</loc>
+    <loc>/tags/</loc>
   </url>
 </urlset>
