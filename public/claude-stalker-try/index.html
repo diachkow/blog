@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>devblog — Zone PDA</title>
+  <title>diachkow.dev — Zone PDA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Source+Code+Pro:wght@300;400;500;600;700&family=Play:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -651,68 +651,51 @@
     <header class="header">
       <div class="header-row">
         <div>
-          <h1 class="site-title">DEVBLOG <span class="zone">ZONE</span></h1>
-          <p class="site-subtitle">// field notes from the exclusion zone of software engineering</p>
+          <h1 class="site-title">DIACHKOW <span class="zone">DEV</span></h1>
+          <p class="site-subtitle">// Vitalii Diachkov — software engineer, writing about backend systems and developer tooling</p>
         </div>
         <div class="header-coords">
-          <span class="lbl">SECTOR:</span> <span class="val">N-7 CORDON</span><br>
-          <span class="lbl">FACTION:</span> <span class="val">LONER</span><br>
-          <span class="lbl">RANK:</span> <span class="val">EXPERIENCED</span>
+          <span class="lbl">HANDLE:</span> <span class="val">@diachkow</span><br>
+          <span class="lbl">GITHUB:</span> <a href="https://github.com/diachkow" style="color: var(--olive-bright);">github.com/diachkow</a><br>
+          <span class="lbl">TWITTER:</span> <a href="https://twitter.com/diachkow" style="color: var(--olive-bright);">@diachkow</a>
         </div>
       </div>
-      <ul class="tab-bar">
-        <li><a href="#" class="active">MAP</a></li>
-        <li><a href="#">DIARY</a></li>
-        <li><a href="#">CONTACTS</a></li>
-        <li><a href="#">RANKINGS</a></li>
-        <li><a href="#">STATS</a></li>
-      </ul>
     </header>
-
-    
-    <div class="anomaly-alert">
-      <span class="warn-icon">EMISSION</span>
-      <span class="alert-text"><strong>Warning:</strong> An emission is approaching. Seek shelter immediately. New blog post on surviving production outages.</span>
-    </div>
 
     
     <article class="pda-screen">
       <div class="pda-screen-header">
-        <span class="label">Active Task</span>
+        <span class="label">Pinned</span>
         <span class="status">PRIORITY: HIGH</span>
       </div>
       <div class="pda-screen-body">
-        <p class="topic-tag">Rust // Concurrency</p>
-        <h2>Building a Lock-Free Queue in Rust</h2>
+        <p class="topic-tag">AI // Production</p>
+        <h2>Building Reliable AI Pipelines in Production</h2>
         <div class="meta">
-          <span>02.18.2026</span>
+          <span>02.10.2026</span>
           <span class="sep">|</span>
-          <span>12 min read</span>
-          <span class="sep">|</span>
-          <span>Clearance: Open</span>
+          <span>15 min read</span>
         </div>
-        <p>Lock-free data structures are the anomalies of concurrent programming. They promise throughput without the weight of mutex contention, but demand deep knowledge of memory ordering, compare-and-swap operations, and the dreaded ABA problem. We traverse this dangerous territory and build a Michael-Scott queue from scratch.</p>
+        <p>What I learned running LLM-powered pipelines for 18 months — retries, fallbacks, and why you need a plan for when the model decides to be wrong.</p>
       </div>
     </article>
 
-    
-    <div class="rad-map">
-      <div class="rad-cell">
-        <div class="rad-val">47</div>
-        <div class="rad-label">Field Reports</div>
-        <div class="rad-bar"><div class="rad-fill green" style="width: 85%"></div></div>
+    <article class="pda-screen">
+      <div class="pda-screen-header">
+        <span class="label">Pinned</span>
+        <span class="status">PRIORITY: HIGH</span>
       </div>
-      <div class="rad-cell">
-        <div class="rad-val">12k</div>
-        <div class="rad-label">Stalkers Reading</div>
-        <div class="rad-bar"><div class="rad-fill yellow" style="width: 70%"></div></div>
+      <div class="pda-screen-body">
+        <p class="topic-tag">Databases // SQL</p>
+        <h2>Why I Still Write Raw SQL in 2025</h2>
+        <div class="meta">
+          <span>12.14.2025</span>
+          <span class="sep">|</span>
+          <span>10 min read</span>
+        </div>
+        <p>A defense of keeping SQL close to the metal, and the patterns that make it manageable at scale.</p>
       </div>
-      <div class="rad-cell">
-        <div class="rad-val">847</div>
-        <div class="rad-label">Days in Zone</div>
-        <div class="rad-bar"><div class="rad-fill orange" style="width: 92%"></div></div>
-      </div>
-    </div>
+    </article>
 
     
     <div class="sec-head">
@@ -807,35 +790,9 @@
       </li>
     </ul>
 
-    
-    <div class="comm-msg">
-      <p class="from">Incoming Transmission // Sidorovich</p>
-      <blockquote>"The best code I ever wrote was code I deleted. Every line removed was an anomaly defused — a future blowout averted before it could pull the whole system into the void."</blockquote>
-      <p class="timestamp">Received: 02.20.2026 // 03:14 UTC</p>
-    </div>
-
-    
-    <div class="stash-box">
-      <div class="stash-head">
-        <span>Stash: Active Mission</span>
-        <span class="stash-status">3/5 COMPLETE</span>
-      </div>
-      <div class="stash-body">
-        <h3 class="stash-title">Compilers for the Rest of Us</h3>
-        <p class="stash-desc">A twelve-part expedition through compiler construction. From tokenizing arithmetic to emitting machine code. No academic jargon — just raw engineering extracted from the Zone.</p>
-        <ul class="stash-items">
-          <li class="found">Tokenize arithmetic expressions</li>
-          <li class="found">Recursive descent parsing</li>
-          <li class="found">Build the AST</li>
-          <li>Implement type checking</li>
-          <li>Emit WebAssembly output</li>
-        </ul>
-      </div>
-    </div>
-
     <footer>
-      <a href="/">&lt; EXIT TO CORDON</a>
-      <span class="ver">PDA v3.12 // ZONE EDITION // GOOD HUNTING, STALKER</span>
+      <a href="https://github.com/diachkow">&lt; GITHUB</a>
+      <span class="ver">PDA v3.12 // diachkow.dev</span>
     </footer>
 
   </div>

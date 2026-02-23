@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>devblog — Wasteland Terminal</title>
+  <title>diachkow.dev — Wasteland Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Josefin+Sans:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
@@ -509,61 +509,53 @@
     <!-- Header -->
     <div class="header-bar">
       <div class="header-top">
-        <div class="site-title"><span class="bracket">[</span> DEVBLOG <span class="bracket">]</span></div>
+        <div class="site-title"><span class="bracket">[</span> DIACHKOW.DEV <span class="bracket">]</span></div>
         <div class="header-stats">
-          ENTRIES: <span class="val">47</span> | UPLINK: <span class="val">ACTIVE</span><br>
-          DATE: <span class="val">02.22.2026</span> | SIGNAL: <span class="val">STRONG</span>
+          OPERATOR: <span class="val">VITALII DIACHKOV</span><br>
+          UPLINK: <span class="val">ACTIVE</span> | SIGNAL: <span class="val">STRONG</span>
         </div>
       </div>
-      <ul class="tabs">
-        <li><a href="#" class="active">Data</a></li>
-        <li><a href="#">Items</a></li>
-        <li><a href="#">Stats</a></li>
-        <li><a href="#">Map</a></li>
-        <li><a href="#">Radio</a></li>
-      </ul>
     </div>
 
-    <!-- Radio banner -->
+    <!-- Bio & socials -->
     <div class="radio-banner">
       <span class="radio-icon">ON AIR</span>
-      <span class="radio-text"><strong>Mojave Tech Radio</strong> — "Patrolling the codebase almost makes you wish for a nuclear winter."</span>
+      <span class="radio-text"><strong>Vitalii Diachkov</strong> — Software engineer. Writing about backend systems, developer tooling, and things learned along the way.</span>
     </div>
 
-    <!-- Featured -->
-    <article class="featured">
-      <h2 class="featured-title">Building a Lock-Free Queue in Rust</h2>
-      <div class="featured-meta">
-        <span class="tag">RUST</span>
-        <span class="tag">CONCURRENCY</span>
-        02.18.2026 // 12 MIN READ // CLEARANCE: PUBLIC
-      </div>
-      <p class="featured-body">Lock-free data structures are the dark art of concurrent programming. They promise high throughput without the overhead of mutex contention, but they demand a deep understanding of memory ordering, compare-and-swap operations, and the ABA problem. We build a Michael-Scott queue from scratch.</p>
-    </article>
-
-    <!-- Stats -->
-    <div class="stat-block">
-      <div class="stat-item">
-        <div class="stat-letter">47</div>
-        <div class="stat-word">Entries</div>
-        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width: 85%"></div></div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-letter">12k</div>
-        <div class="stat-word">Readers</div>
-        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width: 72%"></div></div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-letter">847</div>
-        <div class="stat-word">Days Up</div>
-        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width: 90%"></div></div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-letter">23</div>
-        <div class="stat-word">Series</div>
-        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width: 55%"></div></div>
-      </div>
+    <!-- Social links -->
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+      <a href="https://github.com/diachkow" style="font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--text-dim); border: 1px solid var(--rule); padding: 0.4rem 0.8rem; transition: all 0.2s;">GITHUB</a>
+      <a href="https://twitter.com/diachkow" style="font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--text-dim); border: 1px solid var(--rule); padding: 0.4rem 0.8rem; transition: all 0.2s;">TWITTER</a>
     </div>
+
+    <!-- Pinned entries -->
+    <div class="section-header">Pinned Entries</div>
+
+    <ul class="post-list">
+      <li class="post-entry">
+        <div>
+          <p class="post-tag-sm perf">[PINNED]</p>
+          <h3 class="post-name">Building Reliable AI Pipelines in Production</h3>
+          <p class="post-desc">What I learned running LLM-powered pipelines for 18 months — retries, fallbacks, and why you need a plan for when the model decides to be wrong.</p>
+        </div>
+        <div class="post-right">
+          <span class="post-date">02.10.2026</span>
+          <span class="post-time">15 MIN</span>
+        </div>
+      </li>
+      <li class="post-entry">
+        <div>
+          <p class="post-tag-sm perf">[PINNED]</p>
+          <h3 class="post-name">Why I Still Write Raw SQL in 2025</h3>
+          <p class="post-desc">A defense of keeping SQL close to the metal, and the patterns that make it manageable at scale.</p>
+        </div>
+        <div class="post-right">
+          <span class="post-date">12.14.2025</span>
+          <span class="post-time">10 MIN</span>
+        </div>
+      </li>
+    </ul>
 
     <!-- Post list -->
     <div class="section-header">Recent Entries</div>
@@ -637,27 +629,9 @@
       </li>
     </ul>
 
-    <!-- Quest log -->
-    <div class="quest-log">
-      <div class="quest-header">
-        <span class="icon">*</span> Active Quest
-      </div>
-      <div class="quest-body">
-        <h3 class="quest-title">Building Compilers for the Rest of Us</h3>
-        <p class="quest-desc">A twelve-part series on building a complete programming language from lexer to code generation. No academic jargon, just raw engineering and working code.</p>
-        <ul class="quest-objectives">
-          <li class="done">Tokenize arithmetic expressions</li>
-          <li class="done">Recursive descent parsing</li>
-          <li class="done">Build the AST</li>
-          <li>Implement type checking</li>
-          <li>Emit WebAssembly output</li>
-        </ul>
-      </div>
-    </div>
-
     <footer>
-      <a href="/">[&lt; BACK TO INDEX]</a>
-      <span class="version">DEVBLOG v2.77 // WASTELAND EDITION</span>
+      <a href="https://github.com/diachkow">[GITHUB]</a>
+      <span class="version">DIACHKOW.DEV // WASTELAND EDITION</span>
     </footer>
 
   </div>
