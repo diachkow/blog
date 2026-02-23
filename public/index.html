@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.156.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitaliy Dev Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #0f1110;
+      --panel: #181b19;
+      --line: #2a302c;
+      --text: #dbe0db;
+      --muted: #93a097;
+      --fallout: #d4a843;
+      --stalker: #738d45;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(212, 168, 67, 0.1), transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(115, 141, 69, 0.14), transparent 38%),
+        var(--bg);
+    }
+
+    .shell {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 1.25rem 3rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      margin: 0.8rem 0 2.2rem;
+      color: var(--muted);
+      max-width: 42ch;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.02), transparent 45%), var(--panel);
+      padding: 1.3rem 1.2rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #3b443e;
+    }
+
+    .label {
+      margin: 0 0 0.4rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .card p {
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .path {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .fallout .label, .fallout .path { color: var(--fallout); }
+    .stalker .label, .stalker .path { color: var(--stalker); }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <h1>Style Trials</h1>
+    <p class="subtitle">Only two variants are kept. Pick one to open the full layout.</p>
+
+    <section class="grid">
+      <a href="/claude-fallout-try/" class="card fallout">
+        <h2 class="label">Claude Fallout Try</h2>
+        <p>Amber terminal style inspired by post-apocalyptic interfaces.</p>
+        <span class="path">/claude-fallout-try</span>
+      </a>
+
+      <a href="/claude-stalker-try/" class="card stalker">
+        <h2 class="label">Claude Stalker Try</h2>
+        <p>Field PDA look with olive tones and zone-style data panels.</p>
+        <span class="path">/claude-stalker-try</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
