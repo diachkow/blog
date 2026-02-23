@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Style Trials on Vitaliy Dev Blog</title>
-    <link>/</link>
+    <link>//localhost:1313/</link>
     <description>Recent content in Style Trials on Vitaliy Dev Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 10 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building Reliable AI Pipelines in Production</title>
-      <link>/claude-darkroom-take/building-reliable-ai-pipelines/</link>
+      <link>//localhost:1313/claude-darkroom-take/building-reliable-ai-pipelines/</link>
       <pubDate>Tue, 10 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>/claude-darkroom-take/building-reliable-ai-pipelines/</guid>
+      <guid>//localhost:1313/claude-darkroom-take/building-reliable-ai-pipelines/</guid>
       <description></description>
     </item>
     <item>
       <title>Alex Chen — Cassette Futurism</title>
-      <link>/casette-futurism/</link>
+      <link>//localhost:1313/casette-futurism/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>/casette-futurism/</guid>
+      <guid>//localhost:1313/casette-futurism/</guid>
       <description></description>
     </item>
   </channel>
