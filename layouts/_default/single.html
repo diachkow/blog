@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ .Title }} — diachkow.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg-panel: #0d1117;
+    --bg-elevated: #151b23;
+    --border: #1e2630;
+    --text: #c5cdd9;
+    --text-dim: #5c6773;
+    --green: #7fd962;
+    --green-dim: #3d6e2e;
+    --yellow: #e6b450;
+    --blue: #3b82f6;
+    --cyan: #36d0e0;
+    --magenta: #c77dff;
+    --red: #f07178;
+    --orange: #ff8f40;
+    --prompt: #7fd962;
+    --cursor: #e6b450;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Top bar */
+  .titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    backdrop-filter: blur(12px);
+  }
+
+  .titlebar-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .titlebar-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: block;
+  }
+  .titlebar-dots span:nth-child(1) { background: #f07178; }
+  .titlebar-dots span:nth-child(2) { background: #e6b450; }
+  .titlebar-dots span:nth-child(3) { background: #7fd962; }
+
+  .titlebar-text {
+    color: var(--text-dim);
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .titlebar-text em {
+    font-style: normal;
+    color: var(--text);
+  }
+
+  /* Main terminal area */
+  .terminal {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Command lines */
+  .cmd {
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: typeIn 0.4s ease forwards;
+  }
+
+  .cmd:nth-child(1) { animation-delay: 0.1s; }
+  .cmd:nth-child(2) { animation-delay: 0.3s; }
+
+  .prompt {
+    color: var(--prompt);
+    user-select: none;
+  }
+
+  .prompt .arrow {
+    color: var(--green);
+  }
+
+  .cmd-input {
+    color: var(--text);
+  }
+
+  .cmd-input .keyword { color: var(--magenta); }
+  .cmd-input .func { color: var(--yellow); }
+  .cmd-input .string { color: var(--green); }
+  .cmd-input .comment { color: var(--text-dim); font-style: italic; }
+  .cmd-input .number { color: var(--orange); }
+  .cmd-input .builtin { color: var(--cyan); }
+  .cmd-input .decorator { color: var(--orange); }
+
+  /* Back link */
+  .back-link {
+    display: inline-block;
+    margin-bottom: 32px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+    opacity: 0;
+    animation: fadeIn 0.4s ease 0.1s forwards;
+  }
+
+  .back-link:hover {
+    color: var(--cyan);
+  }
+
+  .back-link .arrow {
+    color: var(--green);
+  }
+
+  /* Article header */
+  .article-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px dashed var(--border);
+    opacity: 0;
+    animation: typeIn 0.4s ease 0.2s forwards;
+  }
+
+  .article-title {
+    color: var(--yellow);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+
+  .article-meta {
+    color: var(--text-dim);
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+
+  .article-meta .tag {
+    color: var(--cyan);
+  }
+
+  .article-meta .number {
+    color: var(--orange);
+  }
+
+  /* Article body */
+  .article-body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.4s forwards;
+  }
+
+  .article-body h2 {
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-body h2::before {
+    content: '## ';
+    color: var(--green-dim);
+  }
+
+  .article-body h3 {
+    color: var(--cyan);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 28px 0 12px;
+  }
+
+  .article-body h3::before {
+    content: '### ';
+    color: var(--text-dim);
+  }
+
+  .article-body p {
+    margin-bottom: 16px;
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .article-body a {
+    color: var(--cyan);
+    text-decoration: none;
+    text-underline-offset: 3px;
+  }
+
+  .article-body a:hover {
+    text-decoration: underline;
+  }
+
+  .article-body strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .article-body em {
+    color: var(--text);
+    font-style: italic;
+  }
+
+  .article-body ul,
+  .article-body ol {
+    margin: 0 0 16px 8px;
+    padding-left: 20px;
+  }
+
+  .article-body li {
+    margin-bottom: 6px;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .article-body li::marker {
+    color: var(--green-dim);
+  }
+
+  .article-body blockquote {
+    border-left: 3px solid var(--green-dim);
+    margin: 20px 0;
+    padding: 12px 20px;
+    background: var(--bg-panel);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .article-body blockquote p {
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 0;
+    font-size: 13px;
+  }
+
+  /* Code: inline */
+  .article-body code {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12.5px;
+    color: var(--orange);
+  }
+
+  /* Code: blocks */
+  .article-body pre {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .article-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* Horizontal rules */
+  .article-body hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 40px 0;
+  }
+
+  /* Images */
+  .article-body img {
+    max-width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  /* Article footer / end marker */
+  .article-end {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--border);
+    color: var(--text-dim);
+    font-size: 12px;
+    opacity: 0;
+    animation: fadeIn 0.4s ease 0.6s forwards;
+  }
+
+  .article-end .ret {
+    color: var(--magenta);
+  }
+
+  .article-end .val {
+    color: var(--green);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 80px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer .pip {
+    color: var(--green);
+  }
+
+  /* Status bar */
+  .statusbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    padding: 4px 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-dim);
+    z-index: 100;
+  }
+
+  .statusbar .mode {
+    background: var(--green);
+    color: var(--bg);
+    padding: 1px 8px;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .statusbar .info span {
+    margin-left: 16px;
+  }
+
+  .statusbar .info .lang {
+    color: var(--yellow);
+  }
+
+  /* AI disclosure banner */
+  .ai-banner {
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 24px;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  .ai-banner .tag {
+    color: var(--yellow);
+    font-weight: 500;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  @keyframes typeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    body { font-size: 12px; }
+    .terminal { padding: 24px 16px 60px; }
+    .titlebar { padding: 8px 16px; }
+    .statusbar { padding: 4px 12px; }
+    .article-title { font-size: 18px; }
+    .article-body h2 { font-size: 14px; }
+    .article-body pre { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ai-banner">
+  <span class="tag">note:</span> this site's design and placeholder content were generated with AI assistance
+</div>
+
+<div class="titlebar">
+  <div class="titlebar-dots">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="titlebar-text">diachkow@dev: <em>~/blog/posts/{{ .File.BaseFileName }}</em></div>
+</div>
+
+<main class="terminal">
+
+  <a href="{{ "/" | relURL }}" class="back-link">
+    <span class="arrow">&gt;&gt;&gt;</span> <span class="cmd-input"><span class="func">cd</span> <span class="string">".."</span></span>
+  </a>
+
+  <header class="article-header">
+    <h1 class="article-title">{{ .Title }}</h1>
+    <div class="article-meta">
+      <span>date: <span class="number">{{ .Date.Format "2006-01-02" }}</span></span>
+      {{ with .Params.tags }}
+      <span>&middot; tags: [{{ range $i, $t := . }}{{ if $i }}, {{ end }}<span class="tag">"{{ $t }}"</span>{{ end }}]</span>
+      {{ end }}
+      {{ with .Params.readingtime }}
+      <span>&middot; ~<span class="number">{{ . }}</span> min read</span>
+      {{ end }}
+    </div>
+  </header>
+
+  <article class="article-body">
+    {{ .Content }}
+  </article>
+
+  <div class="article-end">
+    <span class="prompt"><span class="arrow">&gt;&gt;&gt;</span></span>
+    <span class="cmd-input"><span class="ret">return</span> <span class="val">"EOF"</span></span>
+  </div>
+
+  <div class="footer">
+    <span><span class="pip">$</span> diachkow.dev==<span class="number">2026.2</span></span>
+    <span>Built with Hugo</span>
+  </div>
+</main>
+
+<div class="statusbar">
+  <div>
+    <span class="mode">NORMAL</span>
+  </div>
+  <div class="info">
+    <span class="lang">diachkow.dev</span>
+    <span>UTF-8</span>
+    <span>LF</span>
+    <span>Ln 1, Col 1</span>
+  </div>
+</div>
+
+</body>
+</html>
