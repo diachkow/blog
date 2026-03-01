@@ -1,3 +1,9 @@
 baseURL = "/"
 languageCode = "en-us"
 title = "Vitaliy Dev Blog"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    guessSyntax = true

@@ -1,0 +1,23 @@
+/* Everblush color palette — https://github.com/Everblush/everblush */
+:root {
+  --bg: #141b1e;
+  --bg-panel: #1a2225;
+  --bg-elevated: #232a2d;
+  --border: #2d3437;
+
+  --text: #dadada;
+  --text-dim: #6b7578;
+
+  --green: #8ccf7e;
+  --green-dim: #3d6640;
+  --yellow: #e5c76b;
+  --blue: #67b0e8;
+  --cyan: #6cbfbf;
+  --magenta: #c47fd5;
+  --red: #e57474;
+  --orange: #e0a46b;
+
+  --prompt: #8ccf7e;
+  --cursor: #e5c76b;
+  --tmux-accent: #67b0e8;
+}

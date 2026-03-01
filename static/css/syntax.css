@@ -1,0 +1,89 @@
+/* Everblush syntax highlighting for Hugo/Chroma */
+
+/* Background */
+.bg { color: var(--text); background-color: var(--bg-panel); }
+.chroma { color: var(--text); background-color: var(--bg-panel); -webkit-text-size-adjust: none; }
+
+/* Error */
+.chroma .err { color: var(--red); }
+
+/* Line scaffolding */
+.chroma .lnlinks { outline: none; text-decoration: none; color: inherit; }
+.chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+.chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+.chroma .hl { background-color: var(--bg-elevated); }
+.chroma .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em; color: var(--text-dim); }
+.chroma .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em; color: var(--text-dim); }
+.chroma .line { display: flex; }
+
+/* Keywords — cyan */
+.chroma .k  { color: var(--cyan); }
+.chroma .kc { color: var(--cyan); }
+.chroma .kd { color: var(--cyan); }
+.chroma .kn { color: var(--magenta); }
+.chroma .kp { color: var(--cyan); }
+.chroma .kr { color: var(--cyan); }
+.chroma .kt { color: var(--cyan); }
+
+/* Names */
+.chroma .na { color: var(--green); }
+.chroma .nc { color: var(--yellow); }
+.chroma .no { color: var(--orange); }
+.chroma .nd { color: var(--orange); }
+.chroma .ne { color: var(--red); }
+.chroma .nx { color: var(--green); }
+.chroma .nt { color: var(--magenta); }
+.chroma .nf { color: var(--green); }
+.chroma .fm { color: var(--green); }
+.chroma .nb { color: var(--blue); }
+
+/* Literals — magenta */
+.chroma .l  { color: var(--magenta); }
+.chroma .ld { color: var(--green); }
+
+/* Strings — green */
+.chroma .s  { color: var(--green); }
+.chroma .sa { color: var(--green); }
+.chroma .sb { color: var(--green); }
+.chroma .sc { color: var(--green); }
+.chroma .dl { color: var(--green); }
+.chroma .sd { color: var(--green); }
+.chroma .s2 { color: var(--green); }
+.chroma .se { color: var(--orange); }
+.chroma .sh { color: var(--green); }
+.chroma .si { color: var(--cyan); }
+.chroma .sx { color: var(--green); }
+.chroma .sr { color: var(--cyan); }
+.chroma .s1 { color: var(--green); }
+.chroma .ss { color: var(--green); }
+
+/* Numbers — orange */
+.chroma .m  { color: var(--orange); }
+.chroma .mb { color: var(--orange); }
+.chroma .mf { color: var(--orange); }
+.chroma .mh { color: var(--orange); }
+.chroma .mi { color: var(--orange); }
+.chroma .il { color: var(--orange); }
+.chroma .mo { color: var(--orange); }
+
+/* Operators — magenta */
+.chroma .o  { color: var(--magenta); }
+.chroma .ow { color: var(--magenta); }
+
+/* Comments — dim */
+.chroma .c   { color: var(--text-dim); font-style: italic; }
+.chroma .ch  { color: var(--text-dim); font-style: italic; }
+.chroma .cm  { color: var(--text-dim); font-style: italic; }
+.chroma .c1  { color: var(--text-dim); font-style: italic; }
+.chroma .cs  { color: var(--text-dim); font-style: italic; }
+.chroma .cp  { color: var(--text-dim); }
+.chroma .cpf { color: var(--text-dim); }
+
+/* Generic */
+.chroma .gd { color: var(--red); }
+.chroma .ge { font-style: italic; }
+.chroma .gi { color: var(--green); }
+.chroma .gs { font-weight: 700; }
+.chroma .gh { color: var(--blue); font-weight: 700; }
+.chroma .gu { color: var(--cyan); font-weight: 700; }
+.chroma .gl { text-decoration: underline; }

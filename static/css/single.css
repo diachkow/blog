@@ -1,0 +1,227 @@
+/* Single post page styles */
+
+/* Narrower terminal for article readability */
+.terminal--article {
+  max-width: 760px;
+  padding-bottom: 80px;
+}
+
+/* Command animation delays (single page) */
+.cmd:nth-child(1) { animation-delay: 0.1s; }
+.cmd:nth-child(2) { animation-delay: 0.3s; }
+
+/* Back link */
+.back-link {
+  display: inline-block;
+  margin-bottom: 32px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+  opacity: 0;
+  animation: fadeIn 0.4s ease 0.1s forwards;
+}
+
+.back-link:hover {
+  color: var(--cyan);
+}
+
+.back-link .arrow {
+  color: var(--green);
+}
+
+/* Article header */
+.article-header {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed var(--border);
+  opacity: 0;
+  animation: typeIn 0.4s ease 0.2s forwards;
+}
+
+.article-title {
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.article-meta {
+  color: var(--text-dim);
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.article-meta .tag {
+  color: var(--cyan);
+}
+
+.article-meta .number {
+  color: var(--orange);
+}
+
+/* Article body */
+.article-body {
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.4s forwards;
+}
+
+.article-body h2 {
+  color: var(--green);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-body h2::before {
+  content: '## ';
+  color: var(--green-dim);
+}
+
+.article-body h3 {
+  color: var(--cyan);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 28px 0 12px;
+}
+
+.article-body h3::before {
+  content: '### ';
+  color: var(--text-dim);
+}
+
+.article-body p {
+  margin-bottom: 16px;
+  color: var(--text);
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+
+.article-body a {
+  color: var(--cyan);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+.article-body a:hover {
+  text-decoration: underline;
+}
+
+.article-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.article-body em {
+  color: var(--text);
+  font-style: italic;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 0 0 16px 8px;
+  padding-left: 20px;
+}
+
+.article-body li {
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.article-body li::marker {
+  color: var(--green-dim);
+}
+
+.article-body blockquote {
+  border-left: 3px solid var(--green-dim);
+  margin: 20px 0;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border-radius: 0 4px 4px 0;
+}
+
+.article-body blockquote p {
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+/* Code: inline */
+.article-body code {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 12.5px;
+  color: var(--orange);
+}
+
+/* Code: blocks */
+.article-body pre {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.article-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Horizontal rules */
+.article-body hr {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 40px 0;
+}
+
+/* Images */
+.article-body img {
+  max-width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  margin: 20px 0;
+}
+
+/* Article footer / end marker */
+.article-end {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  opacity: 0;
+  animation: fadeIn 0.4s ease 0.6s forwards;
+}
+
+.article-end .ret {
+  color: var(--magenta);
+}
+
+.article-end .val {
+  color: var(--green);
+}
+
+/* Responsive — single page */
+@media (max-width: 640px) {
+  .terminal--article { padding: 24px 16px 60px; }
+  .article-title { font-size: 18px; }
+  .article-body h2 { font-size: 14px; }
+  .article-body pre { padding: 14px; }
+}
