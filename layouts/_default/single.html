@@ -12,15 +12,11 @@
 </head>
 <body>
 
-<div class="ai-banner">
-  <span class="tag">note:</span> this site's design and placeholder content were generated with AI assistance
-</div>
-
 <div class="titlebar">
   <div class="titlebar-dots">
     <span></span><span></span><span></span>
   </div>
-  <div class="titlebar-title">vitalii@web: ~/blog/posts/{{ .File.BaseFileName }}</div>
+  <div class="titlebar-title">vitalii@web: ~/blog/posts/{{ .File.ContentBaseName }}</div>
 </div>
 
 <main class="terminal terminal--article">
@@ -50,8 +46,6 @@
   </div>
   <div class="tmux-center">
     <a href="/" class="tmux-window">0:home</a>
-    <a href="https://x.com/diachkow_txt" class="tmux-window" target="_blank">1:twitter</a>
-    <a href="https://github.com/diachkow" class="tmux-window" target="_blank">2:github</a>
   </div>
   <div class="tmux-right">
     <span class="tmux-session">blog</span>

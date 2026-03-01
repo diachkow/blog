@@ -53,11 +53,16 @@ DNS is managed through Cloudflare (A records + CNAME) pointing to GitHub Pages.
 
 ## Adding a new post
 
-```bash
-hugo new posts/my-new-post.md
+Create a new [page bundle](https://gohugo.io/content-management/page-bundles/) directory under `content/posts/`:
+
+```
+content/posts/my-new-post/
+├── index.md           # Post content
+├── screenshot.png     # Images used in the post
+└── diagram.jpg
 ```
 
-This creates `content/posts/my-new-post.md`. Edit the front matter:
+Edit `index.md` front matter:
 
 ```yaml
 ---
@@ -69,6 +74,12 @@ draft: false
 ---
 
 Post content in Markdown goes here.
+
+![Screenshot](screenshot.png)
 ```
 
+Images are referenced by filename since they live in the same directory.
+
 Set `draft: true` to hide from production builds (visible with `hugo server -D`).
+
+**Note:** After adding a post, manually add an entry to `layouts/index.html` to include it on the homepage.
