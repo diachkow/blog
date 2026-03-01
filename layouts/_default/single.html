@@ -36,9 +36,6 @@
       {{ with .Params.tags }}
       <span>&middot; tags: [{{ range $i, $t := . }}{{ if $i }}, {{ end }}<span class="tag">"{{ $t }}"</span>{{ end }}]</span>
       {{ end }}
-      {{ with .Params.readingtime }}
-      <span>&middot; ~<span class="number">{{ . }}</span> min read</span>
-      {{ end }}
     </div>
   </header>
 

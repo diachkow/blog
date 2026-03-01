@@ -3,7 +3,6 @@ title: "Building Reliable AI Pipelines in Production"
 date: 2026-02-10
 tags: ["ai", "production"]
 description: "What I learned running LLM-powered pipelines for 18 months."
-readingtime: 8
 pinned: true
 ---
 
