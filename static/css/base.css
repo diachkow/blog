@@ -1,10 +1,10 @@
 /* Reset & body */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--bg-elevated); }
+html { scroll-behavior: smooth; background: var(--surface-elevated); }
 
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--surface-base);
+  color: var(--text-primary);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 14px;
   line-height: 1.7;
@@ -33,8 +33,8 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border);
+  background: var(--surface-elevated);
+  border-bottom: 1px solid var(--border-default);
   padding: 0 16px;
   height: 38px;
   display: flex;
@@ -55,14 +55,14 @@ body::after {
   border-radius: 50%;
   display: block;
 }
-.titlebar-dots span:nth-child(1) { background: var(--red); }
-.titlebar-dots span:nth-child(2) { background: var(--yellow); }
-.titlebar-dots span:nth-child(3) { background: var(--green); }
+.titlebar-dots span:nth-child(1) { background: var(--text-danger); }
+.titlebar-dots span:nth-child(2) { background: var(--text-warning); }
+.titlebar-dots span:nth-child(3) { background: var(--text-success); }
 
 .titlebar-title {
   flex: 1;
   text-align: center;
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 12px;
   letter-spacing: 0.3px;
   margin-right: 47px;
@@ -88,17 +88,17 @@ body::after {
   user-select: none;
 }
 
-.prompt .path { color: var(--cyan); }
-.prompt .arrow { color: var(--green); }
+.prompt .path { color: var(--text-link); }
+.prompt .arrow { color: var(--text-success); }
 
-.cmd-input { color: var(--text); }
-.cmd-input .keyword { color: var(--magenta); }
-.cmd-input .func { color: var(--yellow); }
-.cmd-input .string { color: var(--green); }
-.cmd-input .comment { color: var(--text-dim); font-style: italic; }
-.cmd-input .number { color: var(--orange); }
-.cmd-input .builtin { color: var(--cyan); }
-.cmd-input .decorator { color: var(--orange); }
+.cmd-input { color: var(--text-primary); }
+.cmd-input .keyword { color: var(--text-keyword); }
+.cmd-input .func { color: var(--text-heading); }
+.cmd-input .string { color: var(--text-string); }
+.cmd-input .comment { color: var(--text-muted); font-style: italic; }
+.cmd-input .number { color: var(--text-number); }
+.cmd-input .builtin { color: var(--text-directory); }
+.cmd-input .decorator { color: var(--text-number); }
 
 /* Cursor blink */
 .cursor {
@@ -118,7 +118,7 @@ body::after {
   left: 0;
   right: 0;
   height: 28px;
-  background: var(--bg-elevated);
+  background: var(--surface-elevated);
   display: flex;
   align-items: center;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -134,8 +134,8 @@ body::after {
 }
 
 .tmux-indicator {
-  background: var(--tmux-accent);
-  color: var(--bg);
+  background: var(--chrome-accent);
+  color: var(--surface-base);
   font-weight: 700;
   padding: 0 14px;
   height: 28px;
@@ -156,7 +156,7 @@ body::after {
 }
 
 .tmux-window {
-  color: var(--text-dim);
+  color: var(--text-muted);
   padding: 0 10px;
   height: 28px;
   line-height: 28px;
@@ -167,11 +167,11 @@ body::after {
 }
 
 .tmux-window:hover {
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .tmux-window.active {
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .tmux-right {
@@ -182,8 +182,8 @@ body::after {
 }
 
 .tmux-session {
-  background: var(--tmux-accent);
-  color: var(--bg);
+  background: var(--chrome-accent);
+  color: var(--surface-base);
   font-weight: 500;
   padding: 0 14px;
   height: 28px;

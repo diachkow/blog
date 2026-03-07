@@ -7,31 +7,31 @@
 }
 
 .sp-dir {
-  color: var(--blue);
+  color: var(--text-directory);
   font-weight: 700;
 }
 
 .sp-dim {
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 .sp-branch {
-  color: var(--magenta);
+  color: var(--text-emphasis);
   font-weight: 700;
 }
 
 .sp-python {
-  color: var(--yellow);
+  color: var(--text-warning);
 }
 
 .sp-dollar {
-  color: var(--green);
+  color: var(--text-success);
   font-weight: 700;
 }
 
 /* ASCII art banner (inside cmd output) */
 .banner {
-  color: var(--green);
+  color: var(--text-success);
   font-size: 11px;
   line-height: 1.3;
   margin: 12px 0 8px;
@@ -40,7 +40,7 @@
 }
 
 .banner-sub {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 12px;
   padding-left: 2px;
 }
@@ -53,14 +53,14 @@
 }
 
 .banner-links a {
-  color: var(--text-dim);
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 12px;
   transition: color 0.15s;
 }
 
 .banner-links a:hover {
-  color: var(--text);
+  color: var(--text-primary);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -82,13 +82,13 @@
 /* Output blocks */
 .output {
   padding: 16px 0 0 20px;
-  border-left: 2px solid var(--border);
+  border-left: 2px solid var(--border-default);
   margin: 12px 0 0 8px;
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .output-header {
-  color: var(--yellow);
+  color: var(--text-heading);
   font-weight: 700;
   font-size: 18px;
   margin-bottom: 4px;
@@ -96,7 +96,7 @@
 }
 
 .output-text {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 13px;
 }
 
@@ -104,14 +104,14 @@
 .post-list {
   margin: 16px 0 0 20px;
   padding-left: 20px;
-  border-left: 2px solid var(--border);
+  border-left: 2px solid var(--border-default);
 }
 
 .post-entry {
   margin-bottom: 24px;
   padding: 16px 20px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
   border-radius: 4px;
   transition: border-color 0.2s, transform 0.2s;
   cursor: pointer;
@@ -119,7 +119,7 @@
 }
 
 .post-entry:hover {
-  border-color: var(--green-dim);
+  border-color: var(--text-link);
   transform: translateX(4px);
 }
 
@@ -128,7 +128,7 @@
 }
 
 .post-title {
-  color: var(--yellow);
+  color: var(--text-heading);
   font-weight: 500;
   font-size: 15px;
   margin-bottom: 4px;
@@ -141,19 +141,19 @@
 
 .post-title a:hover {
   text-decoration: underline;
-  text-decoration-color: var(--yellow);
+  text-decoration-color: var(--text-heading);
   text-underline-offset: 3px;
 }
 
 .post-meta {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 12px;
 }
 
-.post-meta .tag { color: var(--cyan); }
+.post-meta .tag { color: var(--text-link); }
 
 .post-desc {
-  color: var(--text);
+  color: var(--text-primary);
   font-size: 13px;
   margin-top: 8px;
   opacity: 0.8;
@@ -161,8 +161,8 @@
 
 /* About section styled as class definition */
 .about-class {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
   border-radius: 4px;
   padding: 24px;
   margin: 16px 0 0 28px;

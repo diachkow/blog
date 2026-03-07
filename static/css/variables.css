@@ -35,26 +35,29 @@
   font-display: swap;
 }
 
-/* Everblush color palette — https://github.com/Everblush/everblush */
+/* Gruvbox Material mix medium-dark palette */
 :root {
-  --bg: #141b1e;
-  --bg-panel: #1a2225;
-  --bg-elevated: #232a2d;
-  --border: #2d3437;
+  --surface-base: #282828;
+  --surface-panel: #32302f;
+  --surface-elevated: #45403d;
+  --border-default: #5a524c;
 
-  --text: #dadada;
-  --text-dim: #6b7578;
+  --text-primary: #e2cca9;
+  --text-muted: #928374;
 
-  --green: #8ccf7e;
-  --green-dim: #3d6640;
-  --yellow: #e5c76b;
-  --blue: #67b0e8;
-  --cyan: #6cbfbf;
-  --magenta: #c47fd5;
-  --red: #e57474;
-  --orange: #e0a46b;
+  --text-heading: #e9b143;
+  --text-link: #8bba7f;
+  --text-directory: #80aa9e;
+  --text-keyword: #f2594b;
+  --text-string: #b0b846;
+  --text-number: #f28534;
+  --text-emphasis: #d3869b;
+  --text-success: #b0b846;
+  --text-warning: #e9b143;
+  --text-danger: #f2594b;
+  --text-marker: #7c6f64;
 
-  --prompt: #8ccf7e;
-  --cursor: #e5c76b;
-  --tmux-accent: #67b0e8;
+  --prompt: #b0b846;
+  --cursor: #e9b143;
+  --chrome-accent: #80aa9e;
 }
