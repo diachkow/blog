@@ -83,3 +83,7 @@ Images are referenced by filename since they live in the same directory.
 Set `draft: true` to hide from production builds (visible with `hugo server -D`).
 
 **Note:** After adding a post, manually add an entry to `layouts/index.html` to include it on the homepage.
+
+## Acknowledgement
+
+The website uses [`gruvbox-material`](https://github.com/sainnhe/gruvbox-material) `mid` colour palette.
