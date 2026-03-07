@@ -1,0 +1,5 @@
+{{ $result := transform.HighlightCodeBlock . }}
+{{ $wrapped := $result.Wrapped }}
+{{ $wrapped = replaceRE `<span class="n">([^<]+)</span>(<span class="p">\(</span>)` `<span class="n n--call">${1}</span>${2}` $wrapped }}
+{{ $wrapped = replaceRE `(<span class="p">:</span>[[:space:]]*)<span class="n">([^<]+)</span>([[:space:]]*<span class="o">=</span>)` `${1}<span class="n n--type">${2}</span>${3}` $wrapped }}
+{{ $wrapped | safeHTML }}

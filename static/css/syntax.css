@@ -37,6 +37,10 @@
 .chroma .fm { color: var(--text-success); }
 .chroma .nb { color: var(--text-directory); }
 
+/* Post-processed semantic names */
+.chroma .n--call { color: var(--text-success); }
+.chroma .n--type { color: var(--text-warning); }
+
 /* Literals — magenta */
 .chroma .l  { color: var(--text-emphasis); }
 .chroma .ld { color: var(--text-string); }
@@ -71,11 +75,11 @@
 .chroma .ow { color: var(--text-keyword); }
 
 /* Comments — dim */
-.chroma .c   { color: var(--text-muted); font-style: italic; }
-.chroma .ch  { color: var(--text-muted); font-style: italic; }
-.chroma .cm  { color: var(--text-muted); font-style: italic; }
-.chroma .c1  { color: var(--text-muted); font-style: italic; }
-.chroma .cs  { color: var(--text-muted); font-style: italic; }
+.chroma .c   { color: var(--text-muted); font-style: normal; }
+.chroma .ch  { color: var(--text-muted); font-style: normal; }
+.chroma .cm  { color: var(--text-muted); font-style: normal; }
+.chroma .c1  { color: var(--text-muted); font-style: normal; }
+.chroma .cs  { color: var(--text-muted); font-style: normal; }
 .chroma .cp  { color: var(--text-muted); }
 .chroma .cpf { color: var(--text-muted); }
 
