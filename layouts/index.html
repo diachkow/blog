@@ -60,13 +60,16 @@
       </span>
     </div>
     <div class="post-list">
+      {{ range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
       <div class="post-entry">
-        <div class="post-title"><a href="{{ "posts/on-variable-type-hints/" | relURL }}">"On Variable Type Hints in Python"</a></div>
+        <div class="post-title"><a href="{{ .RelPermalink }}">"{{ .Title }}"</a></div>
         <div class="post-meta">
-          date: <span class="number">2026-03-01</span> &middot; tags: [<span class="tag">"python"</span>, <span class="tag">"typing"</span>]
+          date: <span class="number">{{ .Date.Format "2006-01-02" }}</span>
+          {{ with .Params.tags }} &middot; tags: [{{ range $i, $t := . }}{{ if $i }}, {{ end }}<span class="tag">"{{ $t }}"</span>{{ end }}]{{ end }}
         </div>
-        <div class="post-desc"># What are inline variable type hints and why I think they are cool</div>
+        {{ with .Params.description }}<div class="post-desc"># {{ . }}</div>{{ end }}
       </div>
+      {{ end }}
     </div>
   </div>
 
