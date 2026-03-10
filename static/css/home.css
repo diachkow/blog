@@ -47,9 +47,15 @@
 
 .banner-links {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 4px;
   margin-top: 6px;
   padding-left: 2px;
+}
+
+.banner-links-line {
+  display: flex;
+  gap: 20px;
 }
 
 .banner-links a {
@@ -180,7 +186,7 @@
   .post-list { margin-left: 4px; padding-left: 8px; }
   .post-entry { padding: 12px 14px; }
   .output { padding-left: 12px; margin-left: 4px; }
-  .banner-links { gap: 12px; flex-wrap: wrap; }
+  .banner-links-line { gap: 12px; flex-wrap: wrap; }
   .banner-links a { font-size: 11px; }
   .banner-sub { font-size: 11px; }
 }
