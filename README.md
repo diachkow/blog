@@ -15,7 +15,7 @@ Live at **[diachkow.dev](https://diachkow.dev)**
 │   ├── index.html             # Homepage template
 │   └── _default/
 │       └── single.html        # Post template
-├── static/css/                # Stylesheets (Everblush color palette)
+├── static/css/                # Stylesheets (Catppuccin Mocha palette)
 │   ├── variables.css
 │   ├── base.css
 │   ├── home.css
@@ -86,4 +86,4 @@ Set `draft: true` to hide from production builds (visible with `hugo server -D`)
 
 ## Acknowledgement
 
-The website uses [`gruvbox-material`](https://github.com/sainnhe/gruvbox-material) `mid` colour palette.
+The website uses the [`Catppuccin`](https://github.com/catppuccin/palette) `Mocha` palette.

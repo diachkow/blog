@@ -35,29 +35,29 @@
   font-display: swap;
 }
 
-/* Gruvbox Material mix medium-dark palette */
+/* Catppuccin Mocha palette */
 :root {
-  --surface-base: #282828;
-  --surface-panel: #32302f;
-  --surface-elevated: #45403d;
-  --border-default: #5a524c;
+  --surface-base: #1e1e2e;
+  --surface-panel: #181825;
+  --surface-elevated: #11111b;
+  --border-default: #313244;
 
-  --text-primary: #e2cca9;
-  --text-muted: #928374;
+  --text-primary: #cdd6f4;
+  --text-muted: #a6adc8;
 
-  --text-heading: #e9b143;
-  --text-link: #8bba7f;
-  --text-directory: #80aa9e;
-  --text-keyword: #f2594b;
-  --text-string: #b0b846;
-  --text-number: #f28534;
-  --text-emphasis: #d3869b;
-  --text-success: #b0b846;
-  --text-warning: #e9b143;
-  --text-danger: #f2594b;
-  --text-marker: #7c6f64;
+  --text-heading: #f9e2af;
+  --text-link: #89b4fa;
+  --text-directory: #89dceb;
+  --text-keyword: #cba6f7;
+  --text-string: #a6e3a1;
+  --text-number: #fab387;
+  --text-emphasis: #f5c2e7;
+  --text-success: #a6e3a1;
+  --text-warning: #f9e2af;
+  --text-danger: #f38ba8;
+  --text-marker: #6c7086;
 
-  --prompt: #b0b846;
-  --cursor: #e9b143;
-  --chrome-accent: #80aa9e;
+  --prompt: #a6e3a1;
+  --cursor: #f9e2af;
+  --chrome-accent: #94e2d5;
 }

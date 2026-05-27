@@ -33,7 +33,7 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--surface-elevated);
+  background: var(--surface-panel);
   border-bottom: 1px solid var(--border-default);
   padding: 0 16px;
   height: 38px;
@@ -62,7 +62,7 @@ body::after {
 .titlebar-title {
   flex: 1;
   text-align: center;
-  color: var(--text-muted);
+  color: var(--text-primary);
   font-size: 12px;
   letter-spacing: 0.3px;
   margin-right: 47px;
@@ -118,7 +118,7 @@ body::after {
   left: 0;
   right: 0;
   height: 28px;
-  background: var(--surface-elevated);
+  background: var(--surface-panel);
   display: flex;
   align-items: center;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -156,7 +156,7 @@ body::after {
 }
 
 .tmux-window {
-  color: var(--text-muted);
+  color: var(--text-primary);
   padding: 0 10px;
   height: 28px;
   line-height: 28px;
